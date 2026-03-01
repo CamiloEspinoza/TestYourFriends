@@ -11,20 +11,20 @@ Monorepo with two main packages:
 
 - **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS v4, shadcn/ui
 - **Backend**: NestJS, TypeScript, Prisma 7 (SQLite)
+- **Build System**: Turborepo (npm workspaces)
 - **UI Components**: shadcn/ui (New York style, CSS variables, Lucide icons)
 
 ## Commands
 
-### Frontend
-- `npm run dev:frontend` — Start Next.js dev server
-- `npm run build:frontend` — Build frontend for production
-- `npm run lint:frontend` — Lint frontend code
+### Turborepo (from root)
+- `npm run build` — Build all packages in parallel
+- `npm run dev` — Start all dev servers (frontend + backend)
+- `npm run lint` — Lint all packages
+- `npm run test` — Run all tests
 
-### Backend
-- `npm run dev:backend` — Start NestJS dev server
-- `npm run build:backend` — Build backend for production
-- `npm run lint:backend` — Lint backend code
-- `npm run test:backend` — Run backend tests
+### Filtering (run specific package)
+- `turbo run build --filter=frontend` — Build only frontend
+- `turbo run test --filter=backend` — Test only backend
 
 ### Database
 - `npm run db:migrate` — Run Prisma migrations
@@ -33,10 +33,14 @@ Monorepo with two main packages:
 
 ## Key Conventions
 
+- Turborepo manages task orchestration via `turbo.json`
+- Root `package.json` only delegates via `turbo run` — never put task logic there
+- Each package has its own `build`, `dev`, `lint`, `test` scripts
 - Frontend uses `@/*` path alias mapping to `./src/*`
 - shadcn/ui components live in `frontend/src/components/ui/`
 - Utility function `cn()` is in `frontend/src/lib/utils.ts`
 - Prisma schema is at `backend/prisma/schema.prisma`
 - Prisma client is generated to `backend/generated/prisma/`
-- PrismaService in `backend/src/prisma.service.ts` handles DB connections
-- Backend API runs on port 3000, frontend on port 3001 (default Next.js)
+- PrismaModule (`@Global()`) in `backend/src/prisma/` handles DB connections
+- Backend API runs on port 3000, frontend on port 3001
+- Frontend proxies `/api/*` to backend via `next.config.ts` rewrites

@@ -7,19 +7,15 @@ if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
 fi
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
+cd "$PROJECT_DIR"
 
-# Install frontend dependencies
-echo "Installing frontend dependencies..."
-cd "$PROJECT_DIR/frontend"
-npm install
-
-# Install backend dependencies
-echo "Installing backend dependencies..."
-cd "$PROJECT_DIR/backend"
+# Install all workspace dependencies from root
+echo "Installing workspace dependencies..."
 npm install
 
 # Generate Prisma client
 echo "Generating Prisma client..."
+cd "$PROJECT_DIR/backend"
 npx prisma generate
 
 echo "Session start hook completed successfully."
