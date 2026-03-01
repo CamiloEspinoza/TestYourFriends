@@ -9,7 +9,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: [
-      'http://localhost:3001',
+      'http://localhost:3021',
       'http://localhost',
     ],
     credentials: true,
@@ -28,7 +28,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   const configService = app.get(ConfigService);
-  const port = configService.get<number>('PORT', 3000);
+  const port = configService.get<number>('PORT', 3020);
   await app.listen(port);
 }
 void bootstrap();

@@ -17,7 +17,7 @@ COPY backend/ backend/
 # Generate Prisma client
 RUN cd backend && pnpm prisma generate
 
-EXPOSE 3000
+EXPOSE 3020
 
 # Start with migrations + dev server
 CMD sh -c "cd backend && pnpm prisma migrate dev --name init --skip-generate 2>/dev/null; pnpm prisma migrate deploy && pnpm dev"
