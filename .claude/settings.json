@@ -10,5 +10,17 @@
         ]
       }
     ]
+  },
+  "mcpServers": {
+    "prisma": {
+      "command": "npx",
+      "args": ["-y", "prisma", "mcp"],
+      "cwd": "backend"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "cwd": "frontend"
+    }
   }
 }
