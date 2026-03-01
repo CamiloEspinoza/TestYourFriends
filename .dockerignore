@@ -1,0 +1,13 @@
+node_modules
+.turbo
+frontend/.next
+frontend/out
+backend/dist
+backend/generated
+backend/dev.db
+backend/dev.db-journal
+.git
+*.md
+.env
+.env.*
+!.env.example
