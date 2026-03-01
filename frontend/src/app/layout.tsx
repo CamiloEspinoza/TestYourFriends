@@ -19,7 +19,10 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "TestYourFriends",
+  title: {
+    default: "TestYourFriends",
+    template: "%s | TestYourFriends",
+  },
   description: "Test your friends!",
 };
 
