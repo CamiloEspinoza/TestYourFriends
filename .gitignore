@@ -29,8 +29,8 @@ frontend/out/
 backend/dist/
 
 # Prisma
-backend/prisma/dev.db
-backend/prisma/dev.db-journal
+*.db
+*.db-journal
 backend/generated/
 
 # Build
