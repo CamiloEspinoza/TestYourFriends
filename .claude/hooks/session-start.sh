@@ -11,11 +11,11 @@ cd "$PROJECT_DIR"
 
 # Install all workspace dependencies from root
 echo "Installing workspace dependencies..."
-npm install
+pnpm install
 
 # Generate Prisma client
 echo "Generating Prisma client..."
 cd "$PROJECT_DIR/backend"
-npx prisma generate
+pnpm prisma generate
 
 echo "Session start hook completed successfully."

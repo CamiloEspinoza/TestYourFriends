@@ -2,20 +2,16 @@
   "name": "test-your-friends",
   "version": "0.1.0",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "test": "turbo run test",
-    "db:migrate": "cd backend && npx prisma migrate dev",
-    "db:generate": "cd backend && npx prisma generate",
-    "db:studio": "cd backend && npx prisma studio"
+    "db:migrate": "cd backend && pnpm prisma migrate dev",
+    "db:generate": "cd backend && pnpm prisma generate",
+    "db:studio": "cd backend && pnpm prisma studio"
   },
-  "packageManager": "npm@10.9.4",
+  "packageManager": "pnpm@10.30.3",
   "devDependencies": {
     "turbo": "^2.8.12"
   }

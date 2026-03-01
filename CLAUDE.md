@@ -11,25 +11,25 @@ Monorepo with two main packages:
 
 - **Frontend**: Next.js (App Router), React, TypeScript, Tailwind CSS v4, shadcn/ui
 - **Backend**: NestJS, TypeScript, Prisma 7 (SQLite)
-- **Build System**: Turborepo (npm workspaces)
+- **Build System**: Turborepo (pnpm workspaces)
 - **UI Components**: shadcn/ui (New York style, CSS variables, Lucide icons)
 
 ## Commands
 
 ### Turborepo (from root)
-- `npm run build` — Build all packages in parallel
-- `npm run dev` — Start all dev servers (frontend + backend)
-- `npm run lint` — Lint all packages
-- `npm run test` — Run all tests
+- `pnpm build` — Build all packages in parallel
+- `pnpm dev` — Start all dev servers (frontend + backend)
+- `pnpm lint` — Lint all packages
+- `pnpm test` — Run all tests
 
 ### Filtering (run specific package)
-- `turbo run build --filter=frontend` — Build only frontend
-- `turbo run test --filter=backend` — Test only backend
+- `pnpm turbo run build --filter=frontend` — Build only frontend
+- `pnpm turbo run test --filter=backend` — Test only backend
 
 ### Database
-- `npm run db:migrate` — Run Prisma migrations
-- `npm run db:generate` — Generate Prisma client
-- `npm run db:studio` — Open Prisma Studio
+- `pnpm db:migrate` — Run Prisma migrations
+- `pnpm db:generate` — Generate Prisma client
+- `pnpm db:studio` — Open Prisma Studio
 
 ## Key Conventions
 
