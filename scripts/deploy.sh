@@ -56,7 +56,8 @@ for i in $(seq 1 $MAX_RETRIES); do
         break
     fi
     if [[ $i -eq $MAX_RETRIES ]]; then
-        log "Health check failed after $((MAX_RETRIES * SLEEP_SEC))s — rolling back"
+        log "Health check failed after $((MAX_RETRIES * SLEEP_SEC))s — dumping API logs before rollback:"
+        docker logs "tyf-api-$NEW" --tail 80 2>&1 || true
         docker compose -p tyf-app -f "docker-compose.$NEW.yml" down
         die "Deployment failed: $NEW API did not become healthy"
     fi

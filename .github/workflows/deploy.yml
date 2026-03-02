@@ -105,20 +105,23 @@ jobs:
     environment: production
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download image artifacts
         uses: actions/download-artifact@v4
         with:
           name: docker-images
           path: docker-images
 
-      - name: Transfer images to server
+      - name: Transfer images and scripts to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
-          source: "docker-images/*"
+          source: "docker-images/*,scripts/deploy.sh"
           target: "/tmp/tyf-deploy"
           strip_components: 1
 
@@ -136,6 +139,8 @@ jobs:
             echo "Loading Docker images..."
             docker load < /tmp/tyf-deploy/api-image.tar.gz
             docker load < /tmp/tyf-deploy/web-image.tar.gz
+            echo "Syncing deploy script..."
+            cp /tmp/tyf-deploy/deploy.sh /opt/tyf/scripts/deploy.sh
             rm -rf /tmp/tyf-deploy
             echo "Deploying tag: $IMAGE_TAG"
             bash /opt/tyf/scripts/deploy.sh "$IMAGE_TAG"
