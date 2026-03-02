@@ -7,12 +7,12 @@ import {
   Param,
   UseGuards,
 } from '@nestjs/common';
-import { SessionService } from './session.service';
-import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
-import { CurrentUser } from '../common/decorators/current-user.decorator';
-import { CreateSessionDto } from './dto/create-session.dto';
-import { JoinSessionDto } from './dto/join-session.dto';
-import { SubmitAnswersDto } from './dto/submit-answers.dto';
+import { SessionService } from './session.service.js';
+import { JwtAuthGuard } from '../common/guards/jwt-auth.guard.js';
+import { CurrentUser } from '../common/decorators/current-user.decorator.js';
+import { CreateSessionDto } from './dto/create-session.dto.js';
+import { JoinSessionDto } from './dto/join-session.dto.js';
+import { SubmitAnswersDto } from './dto/submit-answers.dto.js';
 
 @Controller('sessions')
 export class SessionController {

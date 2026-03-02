@@ -5,9 +5,9 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { randomBytes } from 'crypto';
-import { PrismaService } from '../prisma/prisma.service';
-import { QuizService } from '../quiz/quiz.service';
-import { MailService } from '../mail/mail.service';
+import { PrismaService } from '../prisma/prisma.service.js';
+import { QuizService } from '../quiz/quiz.service.js';
+import { MailService } from '../mail/mail.service.js';
 
 @Injectable()
 export class SessionService {

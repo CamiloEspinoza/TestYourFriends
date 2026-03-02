@@ -5,14 +5,14 @@ import {
   calculateResult as ethicsCalculateResult,
   type Dimension as EthicsDimension,
   type QuizResult as EthicsQuizResult,
-} from './data/ethics';
+} from './data/ethics.js';
 import {
   questions as virtualQuestions,
   characters as virtualCharacters,
   calculateResult as virtualCalculateResult,
   type Dimension as VirtualDimension,
   type QuizResult as VirtualQuizResult,
-} from './data/virtual';
+} from './data/virtual.js';
 
 type GenericQuizResult = EthicsQuizResult | VirtualQuizResult;
 

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { SessionController } from './session.controller';
-import { SessionService } from './session.service';
-import { QuizModule } from '../quiz/quiz.module';
-import { MailModule } from '../mail/mail.module';
+import { SessionController } from './session.controller.js';
+import { SessionService } from './session.service.js';
+import { QuizModule } from '../quiz/quiz.module.js';
+import { MailModule } from '../mail/mail.module.js';
 
 @Module({
   imports: [QuizModule, MailModule],

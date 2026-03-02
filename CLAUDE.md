@@ -45,10 +45,10 @@ Monorepo with two main packages:
 | Service    | Container       | Port  |
 |------------|-----------------|-------|
 | Nginx      | tyf-nginx       | 80    |
-| Frontend   | tyf-frontend    | 3001  |
-| Backend    | tyf-backend     | 3000  |
-| PostgreSQL | tyf-postgres    | 5432  |
-| Redis      | tyf-redis       | 6379  |
+| Frontend   | tyf-frontend    | 3021  |
+| Backend    | tyf-backend     | 3020  |
+| PostgreSQL | tyf-postgres    | 5434  |
+| Redis      | tyf-redis       | 6381  |
 
 ## Key Conventions
 
@@ -61,5 +61,5 @@ Monorepo with two main packages:
 - Prisma schema is at `backend/prisma/schema.prisma`
 - Prisma client is generated to `backend/generated/prisma/`
 - PrismaModule (`@Global()`) in `backend/src/prisma/` handles DB connections
-- Backend API runs on port 3000, frontend on port 3001
+- Backend API runs on port 3020, frontend on port 3021
 - Frontend proxies `/api/*` to backend via `next.config.ts` rewrites
