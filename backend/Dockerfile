@@ -28,7 +28,19 @@ RUN cd backend && pnpm prisma generate
 # Build NestJS
 RUN pnpm --filter backend build
 
-# ── Stage 3: Production image ──
+# ── Stage 3: Production dependencies only ──
+FROM node:22-alpine AS prod-deps
+
+RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
+
+WORKDIR /app
+
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .pnpm-approve-builds.json ./
+COPY backend/package.json backend/
+
+RUN pnpm install --filter backend... --frozen-lockfile --prod
+
+# ── Stage 4: Production image ──
 FROM node:22-alpine AS runner
 
 RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
@@ -40,8 +52,8 @@ RUN addgroup --system --gid 1001 nodejs && \
 WORKDIR /app
 
 # Copy only what's needed at runtime
-COPY --from=deps --chown=nestjs:nodejs /app/node_modules ./node_modules
-COPY --from=deps --chown=nestjs:nodejs /app/backend/node_modules ./backend/node_modules
+COPY --from=prod-deps --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=prod-deps --chown=nestjs:nodejs /app/backend/node_modules ./backend/node_modules
 COPY --from=builder --chown=nestjs:nodejs /app/backend/dist ./backend/dist
 COPY --from=builder --chown=nestjs:nodejs /app/backend/generated ./backend/generated
 COPY --from=builder --chown=nestjs:nodejs /app/backend/prisma ./backend/prisma
