@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: tyf-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-testyourfriends}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - tyf-infra
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-testyourfriends}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: tyf-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis}
+    volumes:
+      - redis_data:/data
+    networks:
+      - tyf-infra
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis}", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  tyf-infra:
+    external: true
+
+volumes:
+  postgres_data:
+    external: true
+    name: testyourfriends_postgres_data
+  redis_data:
+    external: true
+    name: testyourfriends_redis_data

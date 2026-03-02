@@ -8,9 +8,60 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  passwordHash String    @map("password_hash")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+model Session {
+  id           String        @id @default(cuid())
+  code         String        @unique @db.VarChar(8)
+  quizSlug     String        @map("quiz_slug")
+  status       SessionStatus @default(OPEN)
+  creatorId    String        @map("creator_id")
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  closedAt     DateTime?     @map("closed_at")
+  creator      User          @relation(fields: [creatorId], references: [id])
+  participants Participant[]
+
+  @@index([code])
+  @@index([creatorId])
+}
+
+enum SessionStatus {
+  OPEN
+  CLOSED
+}
+
+model Participant {
+  id            String    @id @default(cuid())
+  sessionId     String    @map("session_id")
+  name          String
+  email         String?
+  completed     Boolean   @default(false)
+  completedAt   DateTime? @map("completed_at")
+  characterName String?   @map("character_name")
+  scoreP        Int?      @map("score_p")
+  scoreI        Int?      @map("score_i")
+  scoreE        Int?      @map("score_e")
+  scoreR        Int?      @map("score_r")
+  session       Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  answers       Answer[]
+
+  @@index([sessionId])
+}
+
+model Answer {
+  id            String      @id @default(cuid())
+  participantId String      @map("participant_id")
+  questionId    Int         @map("question_id")
+  dimension     String      @db.VarChar(1)
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@unique([participantId, questionId])
 }

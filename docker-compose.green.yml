@@ -1,0 +1,72 @@
+services:
+  api-green:
+    image: ghcr.io/camiloespinoza/testyourfriends/api:${IMAGE_TAG:-latest}
+    container_name: tyf-api-green
+    restart: unless-stopped
+    env_file: /opt/tyf/.env.production
+    environment:
+      PORT: "3000"
+      NODE_ENV: production
+    networks:
+      - tyf-infra
+      - traefik-network
+    depends_on:
+      - infra-check
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3000/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tyf-backend.rule=Host(`testyourfriends.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.tyf-backend.entrypoints=websecure"
+      - "traefik.http.routers.tyf-backend.tls.certresolver=myresolver"
+      - "traefik.http.routers.tyf-backend.priority=20"
+      - "traefik.http.middlewares.tyf-strip-api.stripprefix.prefixes=/api"
+      - "traefik.http.routers.tyf-backend.middlewares=tyf-strip-api,sec-headers@docker"
+      - "traefik.http.services.tyf-backend.loadbalancer.server.port=3000"
+      - "traefik.docker.network=infrastructure_staging-network"
+
+  web-green:
+    image: ghcr.io/camiloespinoza/testyourfriends/web:${IMAGE_TAG:-latest}
+    container_name: tyf-web-green
+    restart: unless-stopped
+    env_file: /opt/tyf/.env.production
+    environment:
+      PORT: "3000"
+      HOSTNAME: "0.0.0.0"
+      BACKEND_URL: http://tyf-api-green:3000
+    networks:
+      - tyf-infra
+      - traefik-network
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://0.0.0.0:3000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tyf-frontend.rule=Host(`testyourfriends.com`)"
+      - "traefik.http.routers.tyf-frontend.entrypoints=websecure"
+      - "traefik.http.routers.tyf-frontend.tls.certresolver=myresolver"
+      - "traefik.http.routers.tyf-frontend.priority=10"
+      - "traefik.http.routers.tyf-frontend.middlewares=sec-headers@docker"
+      - "traefik.http.services.tyf-frontend.loadbalancer.server.port=3000"
+      - "traefik.docker.network=infrastructure_staging-network"
+
+  # Verify infra network is reachable before starting app
+  infra-check:
+    image: busybox
+    command: sh -c "echo 'infra network ok'"
+    networks:
+      - tyf-infra
+
+networks:
+  tyf-infra:
+    external: true
+  traefik-network:
+    external: true
+    name: infrastructure_staging-network
