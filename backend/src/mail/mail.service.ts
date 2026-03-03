@@ -29,6 +29,23 @@ export class MailService {
     );
   }
 
+  async sendOtpEmail(to: string, code: string): Promise<void> {
+    try {
+      await this.mailerService.sendMail({
+        to,
+        subject: `${code} es tu código de verificación - TestYourFriends`,
+        template: 'otp',
+        context: {
+          code,
+          year: new Date().getFullYear(),
+        },
+      });
+      this.logger.log(`OTP email sent to ${to}`);
+    } catch (error) {
+      this.logger.error(`Failed to send OTP email to ${to}`, error);
+    }
+  }
+
   async sendGroupResultsEmail(params: SendResultsEmailParams): Promise<void> {
     try {
       await this.mailerService.sendMail({

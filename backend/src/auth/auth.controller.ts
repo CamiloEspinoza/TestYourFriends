@@ -2,21 +2,21 @@ import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard.js';
 import { CurrentUser } from '../common/decorators/current-user.decorator.js';
-import { RegisterDto } from './dto/register.dto.js';
-import { LoginDto } from './dto/login.dto.js';
+import { SendOtpDto } from './dto/send-otp.dto.js';
+import { VerifyOtpDto } from './dto/verify-otp.dto.js';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('register')
-  register(@Body() dto: RegisterDto) {
-    return this.authService.register(dto.email, dto.password, dto.name);
+  @Post('send-otp')
+  sendOtp(@Body() dto: SendOtpDto) {
+    return this.authService.sendOtp(dto.email);
   }
 
-  @Post('login')
-  login(@Body() dto: LoginDto) {
-    return this.authService.login(dto.email, dto.password);
+  @Post('verify-otp')
+  verifyOtp(@Body() dto: VerifyOtpDto) {
+    return this.authService.verifyOtp(dto.email, dto.code);
   }
 
   @Get('me')

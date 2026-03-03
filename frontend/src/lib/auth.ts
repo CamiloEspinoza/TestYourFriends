@@ -11,24 +11,24 @@ interface AuthResponse {
   user: AuthUser;
 }
 
-export async function loginApi(
-  email: string,
-  password: string,
-): Promise<AuthResponse> {
-  return apiFetch<AuthResponse>("/auth/login", {
+interface SendOtpResponse {
+  message: string;
+}
+
+export async function sendOtpApi(email: string): Promise<SendOtpResponse> {
+  return apiFetch<SendOtpResponse>("/auth/send-otp", {
     method: "POST",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email }),
   });
 }
 
-export async function registerApi(
+export async function verifyOtpApi(
   email: string,
-  password: string,
-  name?: string,
+  code: string,
 ): Promise<AuthResponse> {
-  return apiFetch<AuthResponse>("/auth/register", {
+  return apiFetch<AuthResponse>("/auth/verify-otp", {
     method: "POST",
-    body: JSON.stringify({ email, password, name }),
+    body: JSON.stringify({ email, code }),
   });
 }
 

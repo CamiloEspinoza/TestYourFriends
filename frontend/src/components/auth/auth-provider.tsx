@@ -9,8 +9,8 @@ import {
   type ReactNode,
 } from "react";
 import {
-  loginApi,
-  registerApi,
+  sendOtpApi,
+  verifyOtpApi,
   getMeApi,
   type AuthUser,
 } from "@/lib/auth";
@@ -18,8 +18,8 @@ import {
 interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string, name?: string) => Promise<void>;
+  sendOtp: (email: string) => Promise<void>;
+  verifyOtp: (email: string, code: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -32,37 +32,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
+      document.cookie = "token=; path=/; max-age=0";
       setLoading(false);
       return;
     }
     getMeApi()
       .then(setUser)
-      .catch(() => localStorage.removeItem("token"))
+      .catch(() => {
+        localStorage.removeItem("token");
+        document.cookie = "token=; path=/; max-age=0";
+      })
       .finally(() => setLoading(false));
   }, []);
 
-  const login = useCallback(async (email: string, password: string) => {
-    const res = await loginApi(email, password);
+  const sendOtp = useCallback(async (email: string) => {
+    await sendOtpApi(email);
+  }, []);
+
+  const verifyOtp = useCallback(async (email: string, code: string) => {
+    const res = await verifyOtpApi(email, code);
     localStorage.setItem("token", res.accessToken);
+    document.cookie = `token=${res.accessToken}; path=/; max-age=${60 * 60 * 24 * 7}; samesite=lax`;
     setUser(res.user);
   }, []);
 
-  const register = useCallback(
-    async (email: string, password: string, name?: string) => {
-      const res = await registerApi(email, password, name);
-      localStorage.setItem("token", res.accessToken);
-      setUser(res.user);
-    },
-    [],
-  );
-
   const logout = useCallback(() => {
     localStorage.removeItem("token");
+    document.cookie = "token=; path=/; max-age=0";
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, loading, sendOtp, verifyOtp, logout }}>
       {children}
     </AuthContext.Provider>
   );
