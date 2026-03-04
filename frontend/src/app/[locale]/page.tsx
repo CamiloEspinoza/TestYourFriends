@@ -13,7 +13,7 @@ import {
   Send,
   Trophy,
 } from "lucide-react";
-import { getQuizCategories } from "@/lib/quiz-api";
+import { getQuizCategories, type QuizCategory } from "@/lib/quiz-api";
 import { QuizCatalog } from "@/components/quiz/quiz-catalog";
 
 export async function generateMetadata({

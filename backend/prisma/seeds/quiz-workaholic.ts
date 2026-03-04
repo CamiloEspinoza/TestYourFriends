@@ -98,7 +98,7 @@ export async function seedWorkaholic(prisma: PrismaClient, catMap: Record<string
       title: T.title,
       description: T.description,
       scenarioLabel: T.scenarioLabel,
-      categoryId: catMap['life'],
+      categoryId: catMap['lifestyle'],
       sortOrder: 2,
       dimensionLabels: T.dimensionLabels,
       questions: T.questions,

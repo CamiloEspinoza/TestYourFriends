@@ -98,7 +98,7 @@ export async function seedEmotionallyMature(prisma: PrismaClient, catMap: Record
       title: T.title,
       description: T.description,
       scenarioLabel: T.scenarioLabel,
-      categoryId: catMap['life'],
+      categoryId: catMap['lifestyle'],
       sortOrder: 3,
       dimensionLabels: T.dimensionLabels,
       questions: T.questions,

@@ -6,7 +6,7 @@ export async function seedMaterialist(prisma: PrismaClient, catMap: Record<strin
     title: { es: '¿Qué tan materialista eres?', en: 'How materialistic are you?', fr: 'À quel point êtes-vous matérialiste ?', de: 'Wie materialistisch bist du?', it: 'Quanto sei materialista?', pt: 'Quão materialista você é?' },
     description: { es: 'El dinero no da la felicidad — pero la falta de él tampoco. ¿Dónde está tu equilibrio real?', en: 'Money doesn\'t buy happiness — but neither does the lack of it. Where is your real balance?', fr: 'L\'argent ne donne pas le bonheur — mais son absence non plus. Où est votre vrai équilibre ?', de: 'Geld gibt kein Glück — aber sein Fehlen auch nicht. Wo liegt dein echtes Gleichgewicht?', it: 'Il denaro non dà la felicità — ma nemmeno la sua mancanza. Dove sta il tuo vero equilibrio?', pt: 'O dinheiro não traz felicidade — mas a falta dele também não. Onde está seu equilíbrio real?' },
     scenarioLabel: { es: 'Escenario', en: 'Scenario', fr: 'Scénario', de: 'Szenario', it: 'Scenario', pt: 'Cenário' },
-    categoryId: catMap['life'],
+    categoryId: catMap['lifestyle'],
     sortOrder: 4,
     dimensionLabels: {
       es: { M: 'Materialismo', E: 'Experiencial', A: 'Altruismo', S: 'Suficiencia' },

@@ -98,7 +98,7 @@ export async function seedCoward(prisma: PrismaClient, catMap: Record<string, st
       title: T.title,
       description: T.description,
       scenarioLabel: T.scenarioLabel,
-      categoryId: catMap['life'],
+      categoryId: catMap['lifestyle'],
       sortOrder: 5,
       dimensionLabels: T.dimensionLabels,
       questions: T.questions,

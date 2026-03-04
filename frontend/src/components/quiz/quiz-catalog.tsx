@@ -43,9 +43,9 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   Sparkles,
 };
 
-function CategoryIcon({ name }: { name: string }) {
+export function CategoryIcon({ name, className }: { name: string; className?: string }) {
   const Icon = CATEGORY_ICONS[name] ?? Sparkles;
-  return <Icon className="h-4 w-4" />;
+  return <Icon className={className ?? "h-4 w-4"} />;
 }
 
 interface QuizCardProps {

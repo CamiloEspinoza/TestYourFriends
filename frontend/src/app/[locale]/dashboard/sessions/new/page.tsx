@@ -6,7 +6,6 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { ArrowLeft, Loader2, Users, Clock, CheckCircle2, Play } from "lucide-react";
-import * as LucideIcons from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/components/auth/auth-provider";
 import { createSession } from "@/lib/session-api";
 import { getQuizCategories, getQuizBySlug, type QuizCategory } from "@/lib/quiz-api";
+import { CategoryIcon } from "@/components/quiz/quiz-catalog";
 
 interface CreatedQuizInfo {
   title: string;
@@ -30,12 +30,6 @@ interface CreatedQuizInfo {
   slug: string;
   categoryLabel?: string;
   categoryIcon?: string;
-}
-
-function CategoryIcon({ name }: { name: string }) {
-  const Icon = (LucideIcons as Record<string, React.ComponentType<{ className?: string }>>)[name];
-  if (!Icon) return <LucideIcons.HelpCircle className="h-5 w-5 text-primary" />;
-  return <Icon className="h-5 w-5 text-primary" />;
 }
 
 export default function NewSessionPage() {
@@ -134,7 +128,7 @@ export default function NewSessionPage() {
                   {createdQuiz.categoryLabel && (
                     <div className="flex items-center gap-1.5 mb-1">
                       {createdQuiz.categoryIcon && (
-                        <CategoryIcon name={createdQuiz.categoryIcon} />
+                        <CategoryIcon name={createdQuiz.categoryIcon} className="h-5 w-5 text-primary" />
                       )}
                       <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                         {createdQuiz.categoryLabel}
@@ -237,7 +231,7 @@ export default function NewSessionPage() {
           {categories.map((cat) => (
             <div key={cat.slug}>
               <div className="flex items-center gap-2 mb-3">
-                <CategoryIcon name={cat.icon} />
+                <CategoryIcon name={cat.icon} className="h-5 w-5 text-primary" />
                 <h2 className="text-base font-semibold">{cat.label}</h2>
                 <Badge variant="outline" className="text-xs">{cat.quizzes.length}</Badge>
               </div>
@@ -279,7 +273,7 @@ export default function NewSessionPage() {
 
       <div className="flex items-center gap-4">
         {error && <p className="text-sm text-destructive">{error}</p>}
-        <Button onClick={handleCreate} disabled={creating || loadingCats}>
+        <Button onClick={() => handleCreate()} disabled={creating || loadingCats}>
           {creating ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -98,7 +98,7 @@ export async function seedPeoplePleaser(prisma: PrismaClient, catMap: Record<str
       title: T.title,
       description: T.description,
       scenarioLabel: T.scenarioLabel,
-      categoryId: catMap['life'],
+      categoryId: catMap['lifestyle'],
       sortOrder: 6,
       dimensionLabels: T.dimensionLabels,
       questions: T.questions,
