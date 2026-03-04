@@ -4,9 +4,9 @@ import { config } from "dotenv";
 import { resolve } from "path";
 import { defineConfig } from "prisma/config";
 
-// Load .env from project root (monorepo)
+// Load .env files (no-op in production where env vars come from container)
 config({ path: resolve(process.cwd(), "..", ".env") });
-config(); // fallback to backend/.env if exists
+config();
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

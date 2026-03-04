@@ -68,5 +68,5 @@ EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD wget -qO- http://localhost:3000/health || exit 1
 
-# Run migrations, seed (idempotent), then start production server
-CMD ["sh", "-c", "cd backend && pnpm prisma migrate deploy && pnpm db:seed && node dist/src/main.js"]
+# Migrations run via deploy.sh before container is marked healthy
+CMD ["sh", "-c", "cd backend && node dist/src/main.js"]

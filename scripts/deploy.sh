@@ -46,6 +46,9 @@ docker compose -p tyf-app -f "docker-compose.$NEW.yml" up -d
 log "Running database migrations..."
 docker exec "tyf-api-$NEW" sh -c "cd backend && pnpm prisma migrate deploy" || die "Prisma migration failed"
 
+log "Running database seed..."
+docker exec "tyf-api-$NEW" sh -c "cd backend && pnpm db:seed" || log "WARNING: Seed failed (non-fatal)"
+
 # ─── 5. Health check (max 90 s) ───────────────────────────────────────────────
 log "Waiting for $NEW API to be healthy..."
 MAX_RETRIES=18
