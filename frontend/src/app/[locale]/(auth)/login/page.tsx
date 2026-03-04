@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const verifyingRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -79,20 +80,25 @@ export default function LoginPage() {
     }
   }
 
-  async function handleVerifyOtp(otpCode: string) {
-    if (otpCode.length !== 6) return;
-    setError("");
-    setLoading(true);
-    try {
-      await verifyOtp(email, otpCode);
-      router.push(redirectTo);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : tOtp("errorVerify"));
-      setCode("");
-    } finally {
-      setLoading(false);
-    }
-  }
+  const handleVerifyOtp = useCallback(
+    async (otpCode: string) => {
+      if (otpCode.length !== 6 || verifyingRef.current) return;
+      verifyingRef.current = true;
+      setError("");
+      setLoading(true);
+      try {
+        await verifyOtp(email, otpCode);
+        router.push(redirectTo);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : tOtp("errorVerify"));
+        setCode("");
+      } finally {
+        setLoading(false);
+        verifyingRef.current = false;
+      }
+    },
+    [email, redirectTo, verifyOtp, router, tOtp],
+  );
 
   async function handleResend() {
     if (cooldown > 0) return;
