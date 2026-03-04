@@ -66,7 +66,7 @@ export class MailService {
 
     // Try src first (dev with mounted volumes), fallback to dist (compiled output)
     const srcTemplates = join(process.cwd(), 'src', 'mail', 'templates');
-    const distTemplates = join(__dirname, 'templates');
+    const distTemplates = join(process.cwd(), 'dist', 'mail', 'templates');
     try {
       readFileSync(join(srcTemplates, 'otp.hbs'), 'utf-8');
       this.templatesDir = srcTemplates;

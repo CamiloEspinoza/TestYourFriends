@@ -56,6 +56,15 @@ services:
       - "traefik.http.routers.tyf-frontend.middlewares=sec-headers@docker"
       - "traefik.http.services.tyf-frontend.loadbalancer.server.port=3000"
       - "traefik.docker.network=infrastructure_staging-network"
+      # www → non-www redirect
+      - "traefik.http.routers.tyf-www.rule=Host(`www.testyourfriends.com`)"
+      - "traefik.http.routers.tyf-www.entrypoints=websecure"
+      - "traefik.http.routers.tyf-www.tls.certresolver=myresolver"
+      - "traefik.http.routers.tyf-www.priority=5"
+      - "traefik.http.routers.tyf-www.middlewares=www-to-non-www"
+      - "traefik.http.middlewares.www-to-non-www.redirectregex.regex=^https://www\\.testyourfriends\\.com/(.*)"
+      - "traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://testyourfriends.com/$${1}"
+      - "traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true"
 
   # Verify infra network is reachable before starting app
   infra-check:
