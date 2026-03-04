@@ -8,29 +8,29 @@
   },
   "metadata": {
     "site": {
-      "title": "TestYourFriends — Entdecke, wie deine Freunde denken",
-      "description": "Quizzes mit echten Dilemmata, die die Lebensphilosophie jedes Einzelnen offenbaren. Teile, vergleiche und verstehe deine Freunde wie nie zuvor.",
+      "title": "TestYourFriends — Kennst du deine Freunde wirklich?",
+      "description": "Deine Freunde haben es schon gemacht. 10 Fragen, die niemand gleich beantwortet. Finde heraus, wer wie du denkt und wer dich überraschen wird.",
       "keywords": "Persönlichkeitsquiz, ethische Dilemmata, Freunde-Test, Lebensphilosophie vergleichen, Gruppenquiz"
     },
     "home": {
-      "title": "Startseite",
-      "description": "Entdecke, wie die Menschen denken, die dir wichtig sind, mit Quizzes über echte Dilemmata. Teile, vergleiche und verstehe deine Freunde."
+      "title": "Kennst du deine Freunde wirklich?",
+      "description": "32 Quizzes, die zeigen, wie jeder denkt. Deine Gruppe spielt schon. Willst du der Einzige sein, der nicht mitmacht?"
     },
     "login": {
       "title": "Anmelden",
-      "description": "Greife auf dein TestYourFriends-Konto zu, um Sitzungen zu erstellen und Quizzes mit deinen Freunden zu teilen."
+      "description": "Melde dich an und erstelle Sessions, um herauszufinden, wer von deinen Freunden so denkt wie du."
     },
     "register": {
       "title": "Registrieren",
-      "description": "Erstelle dein TestYourFriends-Konto und beginne zu entdecken, wie deine Freunde denken."
+      "description": "Erstelle dein kostenloses Konto und finde heraus, was deine Freunde dir nie ins Gesicht sagen würden."
     },
     "dashboard": {
-      "title": "Sitzung erstellen",
-      "description": "Verwalte deine Sitzungen, überprüfe Ergebnisse und erstelle neue Quizzes zum Teilen mit deinen Freunden."
+      "title": "Session erstellen",
+      "description": "Wähle ein Quiz, teile den Link und finde heraus, wer wie du denkt (und wer nicht)."
     },
     "newSession": {
-      "title": "Neue Sitzung erstellen",
-      "description": "Wähle ein Quiz und erstelle eine Gruppensitzung zum Teilen mit deinen Freunden."
+      "title": "Neue Session erstellen",
+      "description": "Wähle ein Quiz und schick den Link in die Gruppe. In 5 Minuten wisst ihr, wer am intensivsten ist."
     },
     "ethicsQuiz": {
       "title": "Quiz Ethische Dilemmata",
@@ -41,16 +41,16 @@
       "description": "10 Szenarien, in denen die virtuelle Realität verlockende Alternativen bietet. Wo ist dein Wendepunkt?"
     },
     "joinSession": {
-      "title": "Sitzung beitreten",
-      "description": "Tritt einer Gruppensitzung bei und mache das Quiz mit deinen Freunden."
+      "title": "Du wurdest zu einem Quiz herausgefordert 👀",
+      "description": "Jemand aus deiner Gruppe hat schon geantwortet. Mach mit, beantworte 10 Fragen und finde heraus, ob ihr gleich denkt oder totale Gegensätze seid."
     },
     "results": {
-      "title": "Ergebnisse",
-      "description": "Entdecke dein Persönlichkeitsprofil basierend auf deinen Quiz-Antworten."
+      "title": "Schau mal, was rauskam 🔥",
+      "description": "Ich hab schon mein Ergebnis. Traust du dich, deins rauszufinden? Mach das Quiz und lass uns vergleichen."
     },
     "groupResults": {
-      "title": "Gruppenergebnisse",
-      "description": "Vergleiche die Ergebnisse aller Teilnehmer der Sitzung."
+      "title": "Die Gruppenergebnisse sind da",
+      "description": "Jetzt kann man sehen, wer gleich denkt, wer am extremsten ist und wer alle überrascht hat. Schau rein."
     }
   },
   "home": {

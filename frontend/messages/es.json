@@ -8,29 +8,29 @@
   },
   "metadata": {
     "site": {
-      "title": "TestYourFriends — Descubre cómo piensan tus amigos",
-      "description": "Quizzes con dilemas reales que revelan la filosofía de vida de cada persona. Comparte, compara y entiende a tus amigos como nunca antes.",
+      "title": "TestYourFriends — ¿Realmente conoces a tus amigos?",
+      "description": "Tus amigos ya lo hicieron. 10 preguntas que nadie responde igual. Descubre quién piensa como tú y quién te va a sorprender.",
       "keywords": "quiz de personalidad, dilemas éticos, test de amigos, comparar filosofía de vida, quiz grupal"
     },
     "home": {
-      "title": "Inicio",
-      "description": "Descubre cómo piensan las personas que te importan con quizzes de dilemas reales. Comparte, compara y entiende a tus amigos."
+      "title": "¿Realmente conoces a tus amigos?",
+      "description": "32 quizzes que revelan cómo piensa cada persona. Tu grupo ya está jugando. ¿Vas a ser el único que no responde?"
     },
     "login": {
       "title": "Iniciar sesión",
-      "description": "Accede a tu cuenta de TestYourFriends para crear sesiones y compartir quizzes con tus amigos."
+      "description": "Entra a tu cuenta y crea sesiones para descubrir quién de tus amigos piensa como tú."
     },
     "register": {
       "title": "Registrarse",
-      "description": "Crea tu cuenta en TestYourFriends y comienza a descubrir cómo piensan tus amigos."
+      "description": "Crea tu cuenta gratis y empieza a descubrir lo que tus amigos nunca te dirían a la cara."
     },
     "dashboard": {
       "title": "Crear sesión",
-      "description": "Gestiona tus sesiones, revisa resultados y crea nuevos quizzes para compartir con tus amigos."
+      "description": "Elige un quiz, comparte el link y descubre quién piensa igual que tú (y quién no)."
     },
     "newSession": {
       "title": "Crear nueva sesión",
-      "description": "Elige un quiz y crea una sesión grupal para compartir con tus amigos."
+      "description": "Elige un quiz y manda el link al grupo. En 5 minutos van a saber quién es el más intenso."
     },
     "ethicsQuiz": {
       "title": "Quiz de Dilemas Éticos",
@@ -41,16 +41,16 @@
       "description": "10 escenarios donde la realidad virtual ofrece alternativas tentadoras. ¿Dónde está tu punto de inflexión?"
     },
     "joinSession": {
-      "title": "Unirse a sesión",
-      "description": "Únete a una sesión grupal y responde el quiz con tus amigos."
+      "title": "Te retaron a un quiz 👀",
+      "description": "Alguien de tu grupo ya respondió. Entra, responde 10 preguntas y descubre si piensan igual o son polos opuestos."
     },
     "results": {
-      "title": "Resultados",
-      "description": "Descubre tu perfil de personalidad basado en tus respuestas al quiz."
+      "title": "Mira lo que salió 🔥",
+      "description": "Ya tengo mi resultado. ¿Te atreves a descubrir el tuyo? Responde el quiz y comparemos."
     },
     "groupResults": {
-      "title": "Resultados del grupo",
-      "description": "Compara los resultados de todos los participantes de la sesión."
+      "title": "Los resultados del grupo están listos",
+      "description": "Ya se puede ver quién piensa igual, quién es el más extremo y quién sorprendió a todos. Entra a verlo."
     }
   },
   "home": {

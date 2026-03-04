@@ -8,29 +8,29 @@
   },
   "metadata": {
     "site": {
-      "title": "TestYourFriends — Discover how your friends think",
-      "description": "Quizzes with real dilemmas that reveal each person's life philosophy. Share, compare and understand your friends like never before.",
+      "title": "TestYourFriends — Do you really know your friends?",
+      "description": "Your friends already took it. 10 questions nobody answers the same way. Find out who thinks like you and who'll surprise you.",
       "keywords": "personality quiz, ethical dilemmas, friend test, compare life philosophy, group quiz"
     },
     "home": {
-      "title": "Home",
-      "description": "Discover how the people you care about think with real dilemma quizzes. Share, compare and understand your friends."
+      "title": "Do you really know your friends?",
+      "description": "32 quizzes that reveal how everyone thinks. Your group is already playing. Are you going to be the only one who doesn't answer?"
     },
     "login": {
       "title": "Sign in",
-      "description": "Access your TestYourFriends account to create sessions and share quizzes with your friends."
+      "description": "Sign in and create sessions to find out which of your friends thinks like you."
     },
     "register": {
       "title": "Sign up",
-      "description": "Create your TestYourFriends account and start discovering how your friends think."
+      "description": "Create your free account and start discovering what your friends would never say to your face."
     },
     "dashboard": {
       "title": "Create session",
-      "description": "Manage your sessions, review results and create new quizzes to share with your friends."
+      "description": "Pick a quiz, share the link and find out who thinks like you (and who doesn't)."
     },
     "newSession": {
       "title": "Create new session",
-      "description": "Choose a quiz and create a group session to share with your friends."
+      "description": "Pick a quiz and drop the link in the group. In 5 minutes you'll know who's the most intense."
     },
     "ethicsQuiz": {
       "title": "Ethical Dilemmas Quiz",
@@ -41,16 +41,16 @@
       "description": "10 scenarios where virtual reality offers tempting alternatives. Where is your tipping point?"
     },
     "joinSession": {
-      "title": "Join session",
-      "description": "Join a group session and take the quiz with your friends."
+      "title": "You've been challenged to a quiz 👀",
+      "description": "Someone in your group already answered. Jump in, answer 10 questions and find out if you think alike or are total opposites."
     },
     "results": {
-      "title": "Results",
-      "description": "Discover your personality profile based on your quiz answers."
+      "title": "Check out what I got 🔥",
+      "description": "I already have my result. Dare to find out yours? Take the quiz and let's compare."
     },
     "groupResults": {
-      "title": "Group results",
-      "description": "Compare the results of all session participants."
+      "title": "The group results are in",
+      "description": "You can now see who thinks alike, who's the most extreme and who surprised everyone. Go check it out."
     }
   },
   "home": {
