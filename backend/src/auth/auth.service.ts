@@ -4,6 +4,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { randomInt } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -16,12 +17,17 @@ const OTP_RATE_LIMIT_PER_HOUR = 5;
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly isDev: boolean;
 
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private mailService: MailService,
-  ) {}
+    private configService: ConfigService,
+  ) {
+    this.isDev =
+      this.configService.get<string>('NODE_ENV', 'development') !== 'production';
+  }
 
   async sendOtp(email: string) {
     const normalizedEmail = email.toLowerCase().trim();
@@ -59,6 +65,11 @@ export class AuthService {
     await this.mailService.sendOtpEmail(normalizedEmail, code);
 
     this.logger.log(`OTP sent to ${normalizedEmail}`);
+
+    // In development, include the code in the response for easier testing
+    if (this.isDev) {
+      return { message: 'Código enviado a tu email', devCode: code };
+    }
     return { message: 'Código enviado a tu email' };
   }
 

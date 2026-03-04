@@ -20,6 +20,8 @@ export interface JoinResponse {
     situation: string;
     options: { text: string; dimension: string }[];
   }[];
+  alreadyCompleted?: boolean;
+  result?: SubmitResponse;
 }
 
 export interface SubmitResponse {

@@ -42,6 +42,7 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [devCode, setDevCode] = useState<string | undefined>();
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const verifyingRef = useRef(false);
 
@@ -69,7 +70,8 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      await sendOtp(email);
+      const dc = await sendOtp(email);
+      setDevCode(dc);
       setStep("otp");
       setCode("");
       startCooldown();
@@ -105,7 +107,8 @@ export default function LoginPage() {
     setError("");
     setLoading(true);
     try {
-      await sendOtp(email);
+      const dc = await sendOtp(email);
+      setDevCode(dc);
       startCooldown();
     } catch (err) {
       setError(err instanceof Error ? err.message : tOtp("errorResend"));
@@ -138,6 +141,12 @@ export default function LoginPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           {error && <p className="text-sm text-destructive">{error}</p>}
+          {devCode && (
+            <div className="rounded-md border border-dashed border-amber-500/50 bg-amber-50 dark:bg-amber-950/20 p-3 text-center">
+              <p className="text-xs text-amber-700 dark:text-amber-400 mb-1">DEV MODE</p>
+              <p className="font-mono text-lg font-bold tracking-widest">{devCode}</p>
+            </div>
+          )}
           <div className="flex justify-center">
             <InputOTP
               maxLength={6}
