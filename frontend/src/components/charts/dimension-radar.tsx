@@ -13,17 +13,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useTranslations } from "next-intl";
 import type { GroupParticipant } from "@/lib/session-api";
-
-const COLORS = [
-  "hsl(221, 83%, 53%)",
-  "hsl(142, 71%, 45%)",
-  "hsl(0, 84%, 60%)",
-  "hsl(45, 93%, 47%)",
-  "hsl(271, 91%, 65%)",
-  "hsl(199, 89%, 48%)",
-  "hsl(25, 95%, 53%)",
-  "hsl(330, 81%, 60%)",
-];
+import { CHART_COLORS } from "./colors";
 
 export function DimensionRadar({
   participants,
@@ -60,8 +50,8 @@ export function DimensionRadar({
                 key={p.id}
                 name={p.name}
                 dataKey={p.name}
-                stroke={COLORS[i % COLORS.length]}
-                fill={COLORS[i % COLORS.length]}
+                stroke={CHART_COLORS[i % CHART_COLORS.length]}
+                fill={CHART_COLORS[i % CHART_COLORS.length]}
                 fillOpacity={0.15}
               />
             ))}
