@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, getAlternateLanguages, getCanonical } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -10,11 +10,21 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata.login" });
+  const title = t("title");
+  const description = t("description");
+  const url = getCanonical(locale, "/login");
   return {
-    title: t("title"),
-    description: t("description"),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: title }],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [`${SITE_URL}/og-image.png`] },
     alternates: {
-      canonical: getCanonical(locale, "/login"),
+      canonical: url,
       languages: getAlternateLanguages("/login"),
     },
     robots: { index: true, follow: true },

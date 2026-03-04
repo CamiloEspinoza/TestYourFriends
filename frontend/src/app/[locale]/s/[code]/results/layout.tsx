@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
-import { Navbar } from "@/components/layout/navbar";
-import { SITE_URL, getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, getCanonical, getAlternateLanguages } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: string }>;
+  params: Promise<{ locale: string; code: string }>;
 }): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "metadata.dashboard" });
+  const { locale, code } = await params;
+  const t = await getTranslations({ locale, namespace: "metadata.results" });
   const title = t("title");
   const description = t("description");
-  const url = getCanonical(locale, "/dashboard");
+  const url = getCanonical(locale, `/s/${code}/results`);
   return {
     title,
     description,
@@ -25,21 +25,12 @@ export async function generateMetadata({
     twitter: { card: "summary_large_image", title, description, images: [`${SITE_URL}/og-image.png`] },
     alternates: {
       canonical: url,
-      languages: getAlternateLanguages("/dashboard"),
+      languages: getAlternateLanguages(`/s/${code}/results`),
     },
     robots: { index: false, follow: false },
   };
 }
 
-export default function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <main className="container mx-auto px-4 py-8">{children}</main>
-    </div>
-  );
+export default function ResultsLayout({ children }: { children: ReactNode }) {
+  return children;
 }
