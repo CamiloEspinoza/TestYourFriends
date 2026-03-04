@@ -1,7 +1,8 @@
 {
   "common": {
     "appName": "TestYourFriends",
-    "dashboard": "Crea sessione",
+    "goToDashboard": "Vai alla dashboard",
+    "createAccount": "Crea account",
     "backToPanel": "Torna al panel",
     "loading": "Caricamento...",
     "rights": "Tutti i diritti riservati."
