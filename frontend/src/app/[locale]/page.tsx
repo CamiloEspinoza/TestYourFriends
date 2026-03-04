@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Footer } from "@/components/layout/footer";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, getAlternateLanguages, getCanonical } from "@/lib/seo";
 import {
   Sparkles,
   ArrowRight,
@@ -23,11 +23,33 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "metadata.home" });
+  const title = t("title");
+  const description = t("description");
+  const url = getCanonical(locale);
   return {
-    title: t("title"),
-    description: t("description"),
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [
+        {
+          url: `${SITE_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${SITE_URL}/og-image.png`],
+    },
     alternates: {
-      canonical: getCanonical(locale),
+      canonical: url,
       languages: getAlternateLanguages(""),
     },
   };

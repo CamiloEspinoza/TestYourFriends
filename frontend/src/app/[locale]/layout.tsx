@@ -63,11 +63,20 @@ export async function generateMetadata({
       title: t("site.title"),
       description: t("site.description"),
       url: getCanonical(locale),
+      images: [
+        {
+          url: `${SITE_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: t("site.title"),
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
       title: t("site.title"),
       description: t("site.description"),
+      images: [`${SITE_URL}/og-image.png`],
     },
     alternates: {
       canonical: getCanonical(locale),
