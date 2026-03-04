@@ -27,8 +27,8 @@ jobs:
       - name: Set image names (GHCR requires lowercase)
         run: |
           REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-          echo "BACKEND_IMAGE=ghcr.io/${REPO_LOWER}/backend" >> $GITHUB_ENV
-          echo "FRONTEND_IMAGE=ghcr.io/${REPO_LOWER}/frontend" >> $GITHUB_ENV
+          echo "BACKEND_IMAGE=ghcr.io/${REPO_LOWER}/api" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=ghcr.io/${REPO_LOWER}/web" >> $GITHUB_ENV
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -49,13 +49,15 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push backend
+      - name: Build and push backend (api)
         uses: docker/build-push-action@v6
         with:
           context: .
           file: backend/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
+          tags: |
+            ${{ env.BACKEND_IMAGE }}:${{ steps.meta.outputs.version }}
+            ${{ env.BACKEND_IMAGE }}:latest
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -100,52 +102,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+          command_timeout: 5m
           script: |
             set -e
-
-            cd /opt/testyourfriends
-
-            export IMAGE_TAG=${{ needs.build.outputs.image_tag }}
-            export GITHUB_REPOSITORY=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
-
-            echo "==> Pulling new images (tag: $IMAGE_TAG) — sin interrumpir aún"
-            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
-              docker compose -f docker-compose.prod.yml pull backend frontend
-
-            # ── INICIO DE DOWNTIME ──────────────────────────────────────────
-            # El viejo backend se apaga ANTES de que corra la migración.
-            # Así no hay ventana donde el viejo código vea el schema nuevo.
-            # Downtime esperado: ~20-40s (migrate + seed + nest boot)
-            echo "==> Stopping old backend"
-            docker compose -f docker-compose.prod.yml stop backend
-
-            echo "==> Starting new backend (migrate → seed → serve)"
-            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
-              docker compose -f docker-compose.prod.yml up -d --no-deps backend
-
-            echo "==> Waiting for backend health check (timeout 120s)..."
-            timeout 120 bash -c '
-              until docker inspect --format="{{.State.Health.Status}}" tyf-backend 2>/dev/null | grep -q "healthy"; do
-                echo "  still waiting..."
-                sleep 5
-              done
-            ' || {
-              echo "❌ Backend no llegó a healthy — haciendo rollback"
-              docker compose -f docker-compose.prod.yml stop backend
-              # Rollback: volver a la imagen anterior (latest apunta a la anterior hasta que el push tenga éxito)
-              # Revisar logs: docker logs tyf-backend --tail 100
-              exit 1
-            }
-            # ── FIN DE DOWNTIME ─────────────────────────────────────────────
-
-            echo "==> Backend healthy — deploying frontend"
-            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
-              docker compose -f docker-compose.prod.yml up -d --no-deps frontend
-
-            echo "==> Reloading nginx"
-            docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
-
-            echo "==> Cleaning up old images"
-            docker image prune -f
-
-            echo "✅ Deploy completado: $IMAGE_TAG"
+            /opt/tyf/scripts/deploy.sh "${{ needs.build.outputs.image_tag }}"
