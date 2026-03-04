@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Footer } from "@/components/layout/footer";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { SITE_URL, getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, buildOpenGraph, getAlternateLanguages, getCanonical } from "@/lib/seo";
 import {
   Sparkles,
   ArrowRight,
@@ -29,19 +29,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url,
-      images: [
-        {
-          url: `${SITE_URL}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-    },
+    openGraph: buildOpenGraph(title, description, url),
     twitter: {
       card: "summary_large_image",
       title,

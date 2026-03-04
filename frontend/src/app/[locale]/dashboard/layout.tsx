@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Navbar } from "@/components/layout/navbar";
-import { SITE_URL, getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, buildOpenGraph, getAlternateLanguages, getCanonical } from "@/lib/seo";
 
 export async function generateMetadata({
   params,
@@ -16,12 +16,7 @@ export async function generateMetadata({
   return {
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url,
-      images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: title }],
-    },
+    openGraph: buildOpenGraph(title, description, url),
     twitter: { card: "summary_large_image", title, description, images: [`${SITE_URL}/og-image.png`] },
     alternates: {
       canonical: url,

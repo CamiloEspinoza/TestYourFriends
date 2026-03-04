@@ -26,6 +26,9 @@ COPY frontend/ frontend/
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 
+ARG NEXT_PUBLIC_SITE_URL
+ENV NEXT_PUBLIC_SITE_URL=${NEXT_PUBLIC_SITE_URL}
+
 RUN pnpm --filter frontend build
 
 # ── Stage 3: Production image ──

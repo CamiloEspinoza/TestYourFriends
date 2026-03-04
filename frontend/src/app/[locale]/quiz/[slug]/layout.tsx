@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { SITE_URL, getCanonical, getAlternateLanguages } from "@/lib/seo";
+import { SITE_URL, buildOpenGraph, getCanonical, getAlternateLanguages } from "@/lib/seo";
 import { getQuizBySlug } from "@/lib/quiz-api";
 
 export async function generateMetadata({
@@ -22,12 +22,7 @@ export async function generateMetadata({
     return {
       title,
       description,
-      openGraph: {
-        title,
-        description,
-        url,
-        images: [{ url: `${SITE_URL}/og-image.png`, width: 1200, height: 630, alt: title }],
-      },
+      openGraph: buildOpenGraph(title, description, url),
       twitter: { card: "summary_large_image", title, description, images: [`${SITE_URL}/og-image.png`] },
       alternates,
     };

@@ -9,7 +9,7 @@ import { routing } from "@/i18n/routing";
 import { AuthProvider } from "@/components/auth/auth-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { JsonLd } from "@/components/seo/json-ld";
-import { SITE_URL, SITE_NAME, getAlternateLanguages, getCanonical } from "@/lib/seo";
+import { SITE_URL, SITE_NAME, getOgImage, getAlternateLanguages, getCanonical } from "@/lib/seo";
 import "../globals.css";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -63,14 +63,7 @@ export async function generateMetadata({
       title: t("site.title"),
       description: t("site.description"),
       url: getCanonical(locale),
-      images: [
-        {
-          url: `${SITE_URL}/og-image.png`,
-          width: 1200,
-          height: 630,
-          alt: t("site.title"),
-        },
-      ],
+      images: getOgImage(t("site.title")),
     },
     twitter: {
       card: "summary_large_image",

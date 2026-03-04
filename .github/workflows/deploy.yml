@@ -71,6 +71,8 @@ jobs:
           tags: |
             ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.version }}
             ${{ env.FRONTEND_IMAGE }}:latest
+          build-args: |
+            NEXT_PUBLIC_SITE_URL=https://testyourfriends.com
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
