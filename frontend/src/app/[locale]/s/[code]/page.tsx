@@ -33,6 +33,11 @@ export default function SessionJoinPage() {
     if (session.creatorId === user.id && session.status === "OPEN") {
       joinSession(params.code, user.name ?? user.email, user.email, locale)
         .then((res) => {
+          if (res.alreadyCompleted && res.result) {
+            sessionStorage.setItem(`result_${params.code}`, JSON.stringify(res.result));
+            router.replace(`/s/${params.code}/results`);
+            return;
+          }
           sessionStorage.setItem(`participant_${params.code}`, res.participantId);
           sessionStorage.setItem(`quizSlug_${params.code}`, res.quizSlug);
           router.push(`/s/${params.code}/quiz`);
@@ -43,6 +48,11 @@ export default function SessionJoinPage() {
 
   async function handleJoin(name: string, email?: string) {
     const res = await joinSession(params.code, name, email, locale);
+    if (res.alreadyCompleted && res.result) {
+      sessionStorage.setItem(`result_${params.code}`, JSON.stringify(res.result));
+      router.replace(`/s/${params.code}/results`);
+      return;
+    }
     sessionStorage.setItem(`participant_${params.code}`, res.participantId);
     sessionStorage.setItem(`quizSlug_${params.code}`, res.quizSlug);
     router.push(`/s/${params.code}/quiz`);

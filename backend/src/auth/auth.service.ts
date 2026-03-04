@@ -4,6 +4,7 @@ import {
   BadRequestException,
   Logger,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { randomInt } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service.js';
@@ -16,12 +17,17 @@ const OTP_RATE_LIMIT_PER_HOUR = 5;
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
+  private readonly isDev: boolean;
 
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private mailService: MailService,
-  ) {}
+    private configService: ConfigService,
+  ) {
+    this.isDev =
+      this.configService.get<string>('NODE_ENV', 'development') !== 'production';
+  }
 
   async sendOtp(email: string) {
     const normalizedEmail = email.toLowerCase().trim();
@@ -59,11 +65,17 @@ export class AuthService {
     await this.mailService.sendOtpEmail(normalizedEmail, code);
 
     this.logger.log(`OTP sent to ${normalizedEmail}`);
+
+    // In development, include the code in the response for easier testing
+    if (this.isDev) {
+      return { message: 'Código enviado a tu email', devCode: code };
+    }
     return { message: 'Código enviado a tu email' };
   }
 
   async verifyOtp(email: string, code: string) {
     const normalizedEmail = email.toLowerCase().trim();
+    const normalizedCode = code.trim();
 
     const otp = await this.prisma.otp.findFirst({
       where: {
@@ -75,6 +87,9 @@ export class AuthService {
     });
 
     if (!otp) {
+      this.logger.warn(
+        `OTP verify failed for ${normalizedEmail}: no valid OTP found`,
+      );
       throw new UnauthorizedException('Código expirado o inválido');
     }
 
@@ -88,7 +103,10 @@ export class AuthService {
       );
     }
 
-    if (otp.code !== code) {
+    if (otp.code !== normalizedCode) {
+      this.logger.warn(
+        `OTP verify failed for ${normalizedEmail}: code mismatch (expected ${otp.code.slice(0, 2)}****, got ${normalizedCode.slice(0, 2)}****)`,
+      );
       await this.prisma.otp.update({
         where: { id: otp.id },
         data: { attempts: { increment: 1 } },

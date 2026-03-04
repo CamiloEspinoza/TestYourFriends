@@ -11,8 +11,9 @@ interface AuthResponse {
   user: AuthUser;
 }
 
-interface SendOtpResponse {
+export interface SendOtpResponse {
   message: string;
+  devCode?: string;
 }
 
 export async function sendOtpApi(email: string): Promise<SendOtpResponse> {

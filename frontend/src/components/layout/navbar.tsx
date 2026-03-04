@@ -33,40 +33,42 @@ export function Navbar() {
         </Link>
         <nav className="flex items-center gap-4">
           <LanguageSwitcher />
-          <Link
-            href="/dashboard"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {t("dashboard")}
-          </Link>
           {loading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
           ) : user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="cursor-pointer">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback>
-                      {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <div className="px-2 py-1.5 text-sm">
-                  <p className="font-medium">{user.name || "Usuario"}</p>
-                  <p className="text-muted-foreground">{user.email}</p>
-                </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  {tAuth("logout")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {t("goToDashboard")}
+              </Link>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="cursor-pointer">
+                    <Avatar className="h-8 w-8">
+                      <AvatarFallback>
+                        {user.name?.charAt(0).toUpperCase() || user.email.charAt(0).toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="px-2 py-1.5 text-sm">
+                    <p className="font-medium">{user.name || "Usuario"}</p>
+                    <p className="text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    {tAuth("logout")}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <Button variant="outline" size="sm" asChild>
-              <Link href="/login">{tAuth("login.title")}</Link>
+              <Link href="/register">{t("createAccount")}</Link>
             </Button>
           )}
         </nav>

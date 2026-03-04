@@ -22,7 +22,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message =
+    const exceptionResponse =
       exception instanceof HttpException
         ? exception.getResponse()
         : 'Internal server error';
@@ -32,11 +32,23 @@ export class AllExceptionsFilter implements ExceptionFilter {
       exception instanceof Error ? exception.stack : undefined,
     );
 
+    // Normalize message: ValidationPipe returns { message: string[] }, flatten to first entry
+    let body: Record<string, unknown>;
+    if (typeof exceptionResponse === 'string') {
+      body = { message: exceptionResponse };
+    } else {
+      const obj = exceptionResponse as Record<string, unknown>;
+      body = {
+        ...obj,
+        message: Array.isArray(obj.message) ? obj.message[0] : obj.message,
+      };
+    }
+
     response.status(status).json({
       statusCode: status,
       timestamp: new Date().toISOString(),
       path: request.url,
-      ...(typeof message === 'string' ? { message } : message),
+      ...body,
     });
   }
 }

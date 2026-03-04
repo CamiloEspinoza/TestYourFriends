@@ -27,7 +27,7 @@ export function CreateSessionCta() {
       </CardHeader>
       <CardContent>
         <Button asChild className="w-full sm:w-auto">
-          <Link href="/dashboard/sessions/new">
+          <Link href="/dashboard">
             {t("cta")}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

@@ -18,7 +18,7 @@ import {
 interface AuthContextType {
   user: AuthUser | null;
   loading: boolean;
-  sendOtp: (email: string) => Promise<void>;
+  sendOtp: (email: string) => Promise<string | undefined>;
   verifyOtp: (email: string, code: string) => Promise<void>;
   logout: () => void;
 }
@@ -46,7 +46,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const sendOtp = useCallback(async (email: string) => {
-    await sendOtpApi(email);
+    const res = await sendOtpApi(email);
+    return res.devCode;
   }, []);
 
   const verifyOtp = useCallback(async (email: string, code: string) => {

@@ -118,6 +118,51 @@ export class SessionService {
       throw new BadRequestException('Session is closed');
     }
 
+    // Check if a participant with this email already exists in the session
+    if (email) {
+      const existing = await this.prisma.participant.findFirst({
+        where: { sessionId: session.id, email },
+      });
+
+      if (existing) {
+        if (existing.completed) {
+          // Return their existing result instead of creating a new participant
+          const resolvedQuiz = await this.quizService.findBySlug(
+            session.quiz.slug,
+            locale,
+          );
+          const characters = resolvedQuiz.characters as QuizCharacter[];
+          const character = characters.find(
+            (c) => c.name === existing.characterName,
+          );
+          return {
+            participantId: existing.id,
+            sessionId: session.id,
+            quizSlug: session.quiz.slug,
+            questions: [] as { id: number; situation: string; options: { text: string; dimension: string }[] }[],
+            alreadyCompleted: true,
+            result: {
+              character: character || null,
+              scores: existing.scores as Record<string, number>,
+              dimensionLabels:
+                resolvedQuiz.dimensionLabels as Record<string, string>,
+            },
+          };
+        }
+        // Participant exists but hasn't completed — resume with existing participant
+        const quiz = await this.quizService.findBySlug(
+          session.quiz.slug,
+          locale,
+        );
+        return {
+          participantId: existing.id,
+          sessionId: session.id,
+          quizSlug: quiz.slug,
+          questions: quiz.questions,
+        };
+      }
+    }
+
     const participant = await this.prisma.participant.create({
       data: { sessionId: session.id, name, email },
     });

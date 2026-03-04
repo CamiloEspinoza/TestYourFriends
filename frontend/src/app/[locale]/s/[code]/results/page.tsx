@@ -50,7 +50,7 @@ export default function SessionResultsPage() {
           </Link>
         </Button>
         <Button asChild variant="outline">
-          <Link href="/">{t("goToHome")}</Link>
+          <Link href="/dashboard">{t("goToDashboard")}</Link>
         </Button>
       </div>
 

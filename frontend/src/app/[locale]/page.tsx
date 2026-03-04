@@ -167,7 +167,7 @@ export default async function Home({
             {/* CTA */}
             <div className="mt-14 flex flex-col items-center gap-3">
               <Link
-                href="/dashboard/sessions/new"
+                href="/dashboard"
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-primary px-8 text-sm font-semibold text-primary-foreground shadow transition-colors hover:bg-primary/90"
               >
                 {t("howItWorks.cta")}

@@ -1,7 +1,8 @@
 {
   "common": {
     "appName": "TestYourFriends",
-    "dashboard": "Criar sessão",
+    "goToDashboard": "Ir ao dashboard",
+    "createAccount": "Criar Conta",
     "backToPanel": "Voltar ao painel",
     "loading": "Carregando...",
     "rights": "Todos os direitos reservados."
@@ -213,6 +214,7 @@
     "yourResult": "Seu resultado",
     "yourProfile": "Seu perfil:",
     "viewGroupResults": "Ver resultados do grupo",
+    "goToDashboard": "Ir ao painel",
     "goToHome": "Ir ao início"
   },
   "groupResults": {

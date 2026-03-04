@@ -42,6 +42,13 @@ export default function SessionQuizPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    // If user already has a result, redirect to results page
+    const existingResult = sessionStorage.getItem(`result_${params.code}`);
+    if (existingResult) {
+      router.replace(`/s/${params.code}/results`);
+      return;
+    }
+
     const participantId = sessionStorage.getItem(`participant_${params.code}`);
     if (!participantId) {
       router.replace(`/s/${params.code}`);

@@ -29,8 +29,10 @@ import {
   Heart,
   Sparkles,
   ArrowRight,
+  Loader2,
   type LucideIcon,
 } from "lucide-react";
+import { useState } from "react";
 import type { QuizCategory } from "@/lib/quiz-api";
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -53,10 +55,13 @@ interface QuizCardProps {
   createSessionLabel: string;
   tryQuizLabel: string;
   tryQuizHref?: (slug: string) => string;
+  onCreateSession?: (slug: string) => Promise<void>;
+  creatingSlug?: string | null;
 }
 
-function QuizCard({ quiz, createSessionLabel, tryQuizLabel, tryQuizHref }: QuizCardProps) {
+function QuizCard({ quiz, createSessionLabel, tryQuizLabel, tryQuizHref, onCreateSession, creatingSlug }: QuizCardProps) {
   const t = useTranslations("dashboard.quizBadge");
+  const isCreating = creatingSlug === quiz.slug;
   return (
     <Card className="flex flex-col transition-colors hover:border-primary/50">
       <CardHeader className="pb-3">
@@ -70,12 +75,30 @@ function QuizCard({ quiz, createSessionLabel, tryQuizLabel, tryQuizHref }: QuizC
         </div>
       </CardHeader>
       <CardContent className="mt-auto flex gap-2 pt-0">
-        <Button asChild size="sm" className="flex-1 gap-1 text-xs">
-          <Link href={`/dashboard/sessions/new?quiz=${quiz.slug}`}>
-            {createSessionLabel}
-            <ArrowRight className="h-3 w-3" />
-          </Link>
-        </Button>
+        {onCreateSession ? (
+          <Button
+            size="sm"
+            className="flex-1 gap-1 text-xs"
+            disabled={!!creatingSlug}
+            onClick={() => onCreateSession(quiz.slug)}
+          >
+            {isCreating ? (
+              <Loader2 className="h-3 w-3 animate-spin" />
+            ) : (
+              <>
+                {createSessionLabel}
+                <ArrowRight className="h-3 w-3" />
+              </>
+            )}
+          </Button>
+        ) : (
+          <Button asChild size="sm" className="flex-1 gap-1 text-xs">
+            <Link href="/dashboard">
+              {createSessionLabel}
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </Button>
+        )}
         <Button asChild size="sm" variant="outline" className="flex-1 text-xs">
           <Link href={tryQuizHref ? tryQuizHref(quiz.slug) : `/quiz/${quiz.slug}`}>
             {tryQuizLabel}
@@ -91,9 +114,11 @@ interface QuizGridProps {
   createSessionLabel: string;
   tryQuizLabel: string;
   tryQuizHref?: (slug: string) => string;
+  onCreateSession?: (slug: string) => Promise<void>;
+  creatingSlug?: string | null;
 }
 
-function QuizGrid({ category, createSessionLabel, tryQuizLabel, tryQuizHref }: QuizGridProps) {
+function QuizGrid({ category, createSessionLabel, tryQuizLabel, tryQuizHref, onCreateSession, creatingSlug }: QuizGridProps) {
   const quizzes = category.quizzes;
   const QUIZZES_PER_PAGE = 8;
   const pages: (typeof quizzes)[] = [];
@@ -114,6 +139,8 @@ function QuizGrid({ category, createSessionLabel, tryQuizLabel, tryQuizHref }: Q
             createSessionLabel={createSessionLabel}
             tryQuizLabel={tryQuizLabel}
             tryQuizHref={tryQuizHref}
+            onCreateSession={onCreateSession}
+            creatingSlug={creatingSlug}
           />
         ))}
       </div>
@@ -172,6 +199,7 @@ interface QuizCatalogProps {
   createSessionLabel: string;
   tryQuizLabel: string;
   tryQuizHref?: (slug: string) => string;
+  onCreateSession?: (slug: string) => Promise<void>;
 }
 
 export function QuizCatalog({
@@ -179,7 +207,19 @@ export function QuizCatalog({
   createSessionLabel,
   tryQuizLabel,
   tryQuizHref,
+  onCreateSession,
 }: QuizCatalogProps) {
+  const [creatingSlug, setCreatingSlug] = useState<string | null>(null);
+
+  async function handleCreate(slug: string) {
+    if (!onCreateSession) return;
+    setCreatingSlug(slug);
+    try {
+      await onCreateSession(slug);
+    } finally {
+      setCreatingSlug(null);
+    }
+  }
   if (categories.length === 0) return null;
 
   return (
@@ -205,6 +245,8 @@ export function QuizCatalog({
             createSessionLabel={createSessionLabel}
             tryQuizLabel={tryQuizLabel}
             tryQuizHref={tryQuizHref}
+            onCreateSession={onCreateSession ? handleCreate : undefined}
+            creatingSlug={creatingSlug}
           />
         </TabsContent>
       ))}
