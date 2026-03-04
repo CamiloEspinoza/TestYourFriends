@@ -5,6 +5,7 @@ export interface SessionInfo {
   code: string;
   quizSlug: string;
   status: "OPEN" | "CLOSED";
+  creatorId: string;
   creatorName: string | null;
   participantCount: number;
   createdAt: string;
@@ -30,16 +31,14 @@ export interface SubmitResponse {
     photo: string;
   };
   scores: Record<string, number>;
+  dimensionLabels: Record<string, string>;
 }
 
 export interface GroupParticipant {
   id: string;
   name: string;
   characterName: string | null;
-  scoreP: number | null;
-  scoreI: number | null;
-  scoreE: number | null;
-  scoreR: number | null;
+  scores: Record<string, number> | null;
   completedAt: string | null;
   character: {
     name: string;
@@ -53,20 +52,32 @@ export interface GroupParticipant {
 export interface GroupResults {
   code: string;
   quizSlug: string;
+  quizTitle: string;
   status: "OPEN" | "CLOSED";
   creatorName: string | null;
   totalParticipants: number;
   completedCount: number;
   participants: GroupParticipant[];
+  dimensionLabels: Record<string, string>;
+}
+
+export interface SessionParticipant {
+  id: string;
+  name: string;
+  completed: boolean;
+  answeredCount: number;
 }
 
 export interface MySession {
   id: string;
   code: string;
   quizSlug: string;
+  quizTitle: string;
   status: "OPEN" | "CLOSED";
   createdAt: string;
+  totalQuestions: number;
   _count: { participants: number };
+  participants: SessionParticipant[];
 }
 
 export function createSession(quizSlug: string) {
@@ -76,18 +87,18 @@ export function createSession(quizSlug: string) {
   );
 }
 
-export function getMySessions() {
-  return apiFetch<MySession[]>("/sessions/my");
+export function getMySessions(locale = 'es') {
+  return apiFetch<MySession[]>(`/sessions/my?locale=${locale}`);
 }
 
-export function getSessionInfo(code: string) {
-  return apiFetch<SessionInfo>(`/sessions/${code}`);
+export function getSessionInfo(code: string, locale = 'es') {
+  return apiFetch<SessionInfo>(`/sessions/${code}?locale=${locale}`);
 }
 
-export function joinSession(code: string, name: string, email?: string) {
+export function joinSession(code: string, name: string, email?: string, locale = 'es') {
   return apiFetch<JoinResponse>(`/sessions/${code}/join`, {
     method: "POST",
-    body: JSON.stringify({ name, email: email || undefined }),
+    body: JSON.stringify({ name, email: email || undefined, locale }),
   });
 }
 
@@ -95,15 +106,28 @@ export function submitAnswers(
   code: string,
   participantId: string,
   answers: { questionId: number; dimension: string }[],
+  locale = 'es',
 ) {
   return apiFetch<SubmitResponse>(`/sessions/${code}/submit`, {
     method: "POST",
-    body: JSON.stringify({ participantId, answers }),
+    body: JSON.stringify({ participantId, answers, locale }),
   });
 }
 
-export function getGroupResults(code: string) {
-  return apiFetch<GroupResults>(`/sessions/${code}/results`);
+export function saveProgress(
+  code: string,
+  participantId: string,
+  questionId: number,
+  dimension: string,
+) {
+  return apiFetch<{ saved: boolean }>(`/sessions/${code}/progress`, {
+    method: "POST",
+    body: JSON.stringify({ participantId, questionId, dimension }),
+  });
+}
+
+export function getGroupResults(code: string, locale = 'es') {
+  return apiFetch<GroupResults>(`/sessions/${code}/results?locale=${locale}`);
 }
 
 export function closeSession(code: string) {

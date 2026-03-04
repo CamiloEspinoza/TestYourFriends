@@ -2,22 +2,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Award, TrendingUp } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { GroupParticipant } from "@/lib/session-api";
-
-const defaultDimensionLabels: Record<string, string> = {
-  P: "Pragmatismo",
-  I: "Idealismo",
-  E: "Empatía",
-  R: "Rebeldía",
-};
 
 export function GroupSummaryStats({
   participants,
-  dimensionLabels = defaultDimensionLabels,
+  dimensionLabels,
 }: {
   participants: GroupParticipant[];
-  dimensionLabels?: Record<string, string>;
+  dimensionLabels: Record<string, string>;
 }) {
+  const t = useTranslations("groupResults.stats");
   const total = participants.length;
 
   // Most common character
@@ -33,12 +28,11 @@ export function GroupSummaryStats({
 
   // Dominant dimension across group
   const dims = Object.keys(dimensionLabels);
-  const scoreColumns = ["scoreP", "scoreI", "scoreE", "scoreR"] as const;
   const dimTotals: Record<string, number> = {};
-  dims.forEach((dim, i) => {
+  dims.forEach((dim) => {
     dimTotals[dim] = 0;
     participants.forEach((p) => {
-      dimTotals[dim] += (p[scoreColumns[i]] as number) ?? 0;
+      dimTotals[dim] += p.scores?.[dim] ?? 0;
     });
   });
   const topDimension = (Object.entries(dimTotals) as [string, number][]).sort(
@@ -49,20 +43,18 @@ export function GroupSummaryStats({
     <div className="grid gap-4 sm:grid-cols-3">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">Completados</CardTitle>
+          <CardTitle className="text-sm font-medium">{t("completed")}</CardTitle>
           <Users className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{total}</div>
-          <p className="text-xs text-muted-foreground">participantes</p>
+          <p className="text-xs text-muted-foreground">{t("participants")}</p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">
-            Personaje popular
-          </CardTitle>
+          <CardTitle className="text-sm font-medium">{t("popularCharacter")}</CardTitle>
           <Award className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -70,16 +62,14 @@ export function GroupSummaryStats({
             {topCharacter ? topCharacter[0] : "—"}
           </div>
           <p className="text-xs text-muted-foreground">
-            {topCharacter ? `${topCharacter[1]} persona${topCharacter[1] !== 1 ? "s" : ""}` : ""}
+            {topCharacter ? t("personCount", { count: topCharacter[1] }) : ""}
           </p>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-sm font-medium">
-            Dimensión dominante
-          </CardTitle>
+          <CardTitle className="text-sm font-medium">{t("dominantDimension")}</CardTitle>
           <TrendingUp className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
@@ -87,7 +77,7 @@ export function GroupSummaryStats({
             {topDimension ? dimensionLabels[topDimension[0]] : "—"}
           </div>
           <p className="text-xs text-muted-foreground">
-            {topDimension ? `${topDimension[1]} puntos totales` : ""}
+            {topDimension ? t("totalPoints", { count: topDimension[1] }) : ""}
           </p>
         </CardContent>
       </Card>

@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 import type { GroupParticipant } from "@/lib/session-api";
 
 const COLORS = [
@@ -27,9 +28,10 @@ export function CharacterDistribution({
 }: {
   participants: GroupParticipant[];
 }) {
+  const t = useTranslations("groupResults.charts");
   const counts: Record<string, number> = {};
   participants.forEach((p) => {
-    const name = p.characterName || "Sin resultado";
+    const name = p.characterName || t("noResult");
     counts[name] = (counts[name] || 0) + 1;
   });
 
@@ -41,7 +43,7 @@ export function CharacterDistribution({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Distribución de personajes</CardTitle>
+        <CardTitle>{t("characterDistribution")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

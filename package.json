@@ -9,7 +9,11 @@
     "test": "turbo run test",
     "db:migrate": "cd backend && pnpm prisma migrate dev",
     "db:generate": "cd backend && pnpm prisma generate",
-    "db:studio": "cd backend && pnpm prisma studio"
+    "db:studio": "cd backend && pnpm prisma studio",
+    "docker:dev": "docker compose -f docker-compose-dev.yml up --build",
+    "docker:dev:up": "docker compose -f docker-compose-dev.yml up",
+    "docker:dev:down": "docker compose -f docker-compose-dev.yml down",
+    "docker:dev:reset": "docker compose -f docker-compose-dev.yml down -v"
   },
   "packageManager": "pnpm@10.30.3",
   "devDependencies": {

@@ -1,146 +1,137 @@
-name: Build & Deploy
+name: Deploy to Production
 
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: "Image tag to deploy (default: sha-<short>)"
-        required: false
 
 env:
   REGISTRY: ghcr.io
-  API_IMAGE: ghcr.io/camiloespinoza/testyourfriends/api
-  WEB_IMAGE: ghcr.io/camiloespinoza/testyourfriends/web
+  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
 
 jobs:
-  # ─── Job 1: Build Docker images and push to ghcr.io ─────────────────────────
-  build-and-push:
-    name: Build & Push Images
+  # ──────────────────────────────────────────────
+  # 1. Build & push Docker images
+  # ──────────────────────────────────────────────
+  build:
+    name: Build Images
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
 
     outputs:
-      image_tag: ${{ steps.meta.outputs.tag }}
+      image_tag: ${{ steps.meta.outputs.version }}
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set image tag
-        id: meta
-        run: |
-          if [[ -n "${{ github.event.inputs.tag }}" ]]; then
-            TAG="${{ github.event.inputs.tag }}"
-          else
-            TAG="sha-${GITHUB_SHA::7}"
-          fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "IMAGE_TAG=$TAG" >> "$GITHUB_ENV"
-
-      - name: Set up QEMU (multi-arch support)
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
+      - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push API image
-        uses: docker/build-push-action@v5
+      - name: Extract image metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.BACKEND_IMAGE }}
+          tags: |
+            type=sha,prefix=,format=short
+            type=raw,value=latest
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push backend
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: backend/Dockerfile
           push: true
-          tags: |
-            ${{ env.API_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.API_IMAGE }}:latest
-          cache-from: type=gha,scope=api
-          cache-to: type=gha,mode=max,scope=api
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build and push Web image
-        uses: docker/build-push-action@v5
+      - name: Build and push frontend
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: frontend/Dockerfile
           push: true
           tags: |
-            ${{ env.WEB_IMAGE }}:${{ env.IMAGE_TAG }}
-            ${{ env.WEB_IMAGE }}:latest
-          build-args: |
-            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
-          cache-from: type=gha,scope=web
-          cache-to: type=gha,mode=max,scope=web
+            ${{ env.FRONTEND_IMAGE }}:${{ steps.meta.outputs.version }}
+            ${{ env.FRONTEND_IMAGE }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      # Save images as tarballs for transfer to server
-      - name: Pull and save images
-        run: |
-          docker pull ${{ env.API_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker pull ${{ env.WEB_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker save ${{ env.API_IMAGE }}:${{ env.IMAGE_TAG }} | gzip > /tmp/api-image.tar.gz
-          docker save ${{ env.WEB_IMAGE }}:${{ env.IMAGE_TAG }} | gzip > /tmp/web-image.tar.gz
-
-      - name: Upload image artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-images
-          path: |
-            /tmp/api-image.tar.gz
-            /tmp/web-image.tar.gz
-          retention-days: 1
-
-  # ─── Job 2: Deploy to server via SSH ────────────────────────────────────────
+  # ──────────────────────────────────────────────
+  # 2. Deploy al VPS
+  # ──────────────────────────────────────────────
   deploy:
-    name: Deploy to Server
+    name: Deploy to VPS
     runs-on: ubuntu-latest
-    needs: build-and-push
+    needs: build
     environment: production
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Download image artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-images
-          path: docker-images
-
-      - name: Transfer images and scripts to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          source: "docker-images/*,scripts/deploy.sh"
-          target: "/tmp/tyf-deploy"
-          strip_components: 1
+      - uses: actions/checkout@v4
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+        uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          port: ${{ secrets.SERVER_PORT }}
-          timeout: 300s
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            set -euo pipefail
-            IMAGE_TAG="${{ needs.build-and-push.outputs.image_tag }}"
-            echo "Loading Docker images..."
-            docker load < /tmp/tyf-deploy/api-image.tar.gz
-            docker load < /tmp/tyf-deploy/web-image.tar.gz
-            echo "Syncing deploy script..."
-            cp /tmp/tyf-deploy/deploy.sh /opt/tyf/scripts/deploy.sh
-            rm -rf /tmp/tyf-deploy
-            echo "Deploying tag: $IMAGE_TAG"
-            bash /opt/tyf/scripts/deploy.sh "$IMAGE_TAG"
+            set -e
+
+            cd /opt/testyourfriends
+
+            export IMAGE_TAG=${{ needs.build.outputs.image_tag }}
+            export GITHUB_REPOSITORY=${{ github.repository }}
+
+            echo "==> Pulling new images (tag: $IMAGE_TAG) — sin interrumpir aún"
+            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
+              docker compose -f docker-compose.prod.yml pull backend frontend
+
+            # ── INICIO DE DOWNTIME ──────────────────────────────────────────
+            # El viejo backend se apaga ANTES de que corra la migración.
+            # Así no hay ventana donde el viejo código vea el schema nuevo.
+            # Downtime esperado: ~20-40s (migrate + seed + nest boot)
+            echo "==> Stopping old backend"
+            docker compose -f docker-compose.prod.yml stop backend
+
+            echo "==> Starting new backend (migrate → seed → serve)"
+            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
+              docker compose -f docker-compose.prod.yml up -d --no-deps backend
+
+            echo "==> Waiting for backend health check (timeout 120s)..."
+            timeout 120 bash -c '
+              until docker inspect --format="{{.State.Health.Status}}" tyf-backend 2>/dev/null | grep -q "healthy"; do
+                echo "  still waiting..."
+                sleep 5
+              done
+            ' || {
+              echo "❌ Backend no llegó a healthy — haciendo rollback"
+              docker compose -f docker-compose.prod.yml stop backend
+              # Rollback: volver a la imagen anterior (latest apunta a la anterior hasta que el push tenga éxito)
+              # Revisar logs: docker logs tyf-backend --tail 100
+              exit 1
+            }
+            # ── FIN DE DOWNTIME ─────────────────────────────────────────────
+
+            echo "==> Backend healthy — deploying frontend"
+            IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
+              docker compose -f docker-compose.prod.yml up -d --no-deps frontend
+
+            echo "==> Reloading nginx"
+            docker compose -f docker-compose.prod.yml exec nginx nginx -s reload
+
+            echo "==> Cleaning up old images"
+            docker image prune -f
+
+            echo "✅ Deploy completado: $IMAGE_TAG"

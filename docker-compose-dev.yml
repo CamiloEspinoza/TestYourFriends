@@ -37,16 +37,20 @@ services:
       dockerfile: backend/Dockerfile.dev
     container_name: tyf-backend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-testyourfriends}?schema=public
       REDIS_HOST: redis
       REDIS_PORT: 6379
       PORT: 3020
+      APP_BASE_URL: http://localhost
     ports:
       - "3020:3020"
     volumes:
       - ./backend/src:/app/backend/src
       - ./backend/prisma:/app/backend/prisma
+      - ./backend/generated:/app/backend/generated
     depends_on:
       postgres:
         condition: service_healthy
@@ -67,6 +71,7 @@ services:
     volumes:
       - ./frontend/src:/app/frontend/src
       - ./frontend/public:/app/frontend/public
+      - ./frontend/messages:/app/frontend/messages
     depends_on:
       - backend
 

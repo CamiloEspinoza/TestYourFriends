@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,30 +10,34 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { LogOut, User } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/components/auth/auth-provider";
+import { LanguageSwitcher } from "./language-switcher";
 
 export function Navbar() {
+  const t = useTranslations("common");
+  const tAuth = useTranslations("auth");
   const { user, loading, logout } = useAuth();
-  const router = useRouter();
 
   function handleLogout() {
     logout();
-    router.push("/");
+    window.location.href = "/";
   }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-14 items-center justify-between px-4">
         <Link href="/" className="text-lg font-bold tracking-tight">
-          TestYourFriends
+          {t("appName")}
         </Link>
         <nav className="flex items-center gap-4">
+          <LanguageSwitcher />
           <Link
             href="/dashboard"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Dashboard
+            {t("dashboard")}
           </Link>
           {loading ? (
             <div className="h-8 w-8 animate-pulse rounded-full bg-muted" />
@@ -57,13 +60,13 @@ export function Navbar() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  Cerrar sesión
+                  {tAuth("logout")}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Button variant="outline" size="sm" asChild>
-              <Link href="/login">Entrar</Link>
+              <Link href="/login">{tAuth("login.title")}</Link>
             </Button>
           )}
         </nav>

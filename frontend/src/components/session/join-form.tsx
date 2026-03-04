@@ -39,7 +39,7 @@ export function JoinForm({ sessionCode, creatorName, onJoin }: JoinFormProps) {
   }
 
   return (
-    <Card className="mx-auto max-w-md">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Unirse a la sesión</CardTitle>
         <CardDescription>
@@ -72,7 +72,7 @@ export function JoinForm({ sessionCode, creatorName, onJoin }: JoinFormProps) {
             />
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="pt-4">
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Entrando..." : "Comenzar quiz"}
           </Button>

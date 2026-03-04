@@ -28,20 +28,53 @@ model Otp {
   @@index([email])
 }
 
+model QuizCategory {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  label       Json
+  description Json
+  icon        String   @db.VarChar(32)
+  sortOrder   Int      @default(0) @map("sort_order")
+  quizzes     Quiz[]
+  createdAt   DateTime @default(now()) @map("created_at")
+}
+
+model Quiz {
+  id              String       @id @default(cuid())
+  slug            String       @unique
+  title           Json
+  description     Json
+  scenarioLabel   Json         @map("scenario_label")
+  categoryId      String       @map("category_id")
+  dimensionLabels Json         @map("dimension_labels")
+  questions       Json
+  characters      Json
+  isActive        Boolean      @default(true) @map("is_active")
+  sortOrder       Int          @default(0) @map("sort_order")
+  category        QuizCategory @relation(fields: [categoryId], references: [id])
+  sessions        Session[]
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  @@index([categoryId])
+}
+
 model Session {
   id           String        @id @default(cuid())
   code         String        @unique @db.VarChar(8)
-  quizSlug     String        @map("quiz_slug")
+  quizId       String        @map("quiz_id")
   status       SessionStatus @default(OPEN)
   creatorId    String        @map("creator_id")
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   closedAt     DateTime?     @map("closed_at")
   creator      User          @relation(fields: [creatorId], references: [id])
+  quiz         Quiz          @relation(fields: [quizId], references: [id])
   participants Participant[]
 
   @@index([code])
   @@index([creatorId])
+  @@index([quizId])
 }
 
 enum SessionStatus {
@@ -57,10 +90,7 @@ model Participant {
   completed     Boolean   @default(false)
   completedAt   DateTime? @map("completed_at")
   characterName String?   @map("character_name")
-  scoreP        Int?      @map("score_p")
-  scoreI        Int?      @map("score_i")
-  scoreE        Int?      @map("score_e")
-  scoreR        Int?      @map("score_r")
+  scores        Json?
   session       Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   answers       Answer[]
 
@@ -75,4 +105,20 @@ model Answer {
   participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
 
   @@unique([participantId, questionId])
+}
+
+model EmailLog {
+  id        String    @id @default(cuid())
+  to        String
+  subject   String
+  template  String    @db.VarChar(64)
+  context   Json?
+  messageId String?   @map("message_id")
+  openedAt  DateTime? @map("opened_at")
+  clickedAt DateTime? @map("clicked_at")
+  sentAt    DateTime  @default(now()) @map("sent_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@index([to])
+  @@index([createdAt])
 }

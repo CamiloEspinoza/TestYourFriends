@@ -7,4 +7,8 @@ export class JoinSessionDto {
   @IsEmail()
   @IsOptional()
   email?: string;
+
+  @IsString()
+  @IsOptional()
+  locale?: string;
 }

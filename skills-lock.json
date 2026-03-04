@@ -36,6 +36,16 @@
       "sourceType": "github",
       "computedHash": "515ba75178bd44875812d9a560bdf14651f86709f89cf1d4f209638e879807f3"
     },
+    "og-image-design": {
+      "source": "CamiloEspinoza/og-image-design",
+      "sourceType": "github",
+      "computedHash": "93972b7d5d2ef6dede0574af6018c9b0cc84b443bdf59de93cb0b8645ed479f7"
+    },
+    "seo-audit": {
+      "source": "coreyhaines31/marketingskills",
+      "sourceType": "github",
+      "computedHash": "27156d103697411bba81520fef469e77bfba4c65d904c841e4965a158d531fbd"
+    },
     "shadcn-ui": {
       "source": "giuseppe-trisciuoglio/developer-kit",
       "sourceType": "github",

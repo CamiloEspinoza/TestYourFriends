@@ -1,0 +1,265 @@
+{
+  "common": {
+    "appName": "TestYourFriends",
+    "dashboard": "Créer une session",
+    "backToPanel": "Retour au panel",
+    "loading": "Chargement...",
+    "rights": "Tous droits réservés."
+  },
+  "metadata": {
+    "site": {
+      "title": "TestYourFriends — Découvrez comment pensent vos amis",
+      "description": "Des quiz avec de vrais dilemmes qui révèlent la philosophie de vie de chacun. Partagez, comparez et comprenez vos amis comme jamais.",
+      "keywords": "quiz de personnalité, dilemmes éthiques, test d'amis, comparer philosophie de vie, quiz de groupe"
+    },
+    "home": {
+      "title": "Accueil",
+      "description": "Découvrez comment pensent les personnes qui comptent pour vous avec des quiz de dilemmes réels. Partagez, comparez et comprenez vos amis."
+    },
+    "login": {
+      "title": "Connexion",
+      "description": "Accédez à votre compte TestYourFriends pour créer des sessions et partager des quiz avec vos amis."
+    },
+    "register": {
+      "title": "Inscription",
+      "description": "Créez votre compte TestYourFriends et commencez à découvrir comment pensent vos amis."
+    },
+    "dashboard": {
+      "title": "Créer une session",
+      "description": "Gérez vos sessions, consultez les résultats et créez de nouveaux quiz à partager avec vos amis."
+    },
+    "newSession": {
+      "title": "Créer une nouvelle session",
+      "description": "Choisissez un quiz et créez une session de groupe à partager avec vos amis."
+    },
+    "ethicsQuiz": {
+      "title": "Quiz Dilemmes éthiques",
+      "description": "10 situations éthiques qui révéleront votre philosophie de vie. Découvrez quel personnage historique pense comme vous."
+    },
+    "virtualQuiz": {
+      "title": "Quiz Réalité ou Virtualité",
+      "description": "10 scénarios où la réalité virtuelle offre des alternatives tentantes. Où est votre point de bascule ?"
+    },
+    "joinSession": {
+      "title": "Rejoindre la session",
+      "description": "Rejoignez une session de groupe et passez le quiz avec vos amis."
+    },
+    "results": {
+      "title": "Résultats",
+      "description": "Découvrez votre profil de personnalité basé sur vos réponses au quiz."
+    },
+    "groupResults": {
+      "title": "Résultats du groupe",
+      "description": "Comparez les résultats de tous les participants de la session."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "Nouveaux quiz disponibles",
+      "title": "Découvrez comment pensent les personnes qui comptent pour vous",
+      "subtitle": "Des quiz avec de vrais dilemmes qui révèlent la philosophie de vie de chacun. Partagez, comparez et comprenez vos amis comme jamais.",
+      "tryQuiz": "Voir les quiz",
+      "howItWorks": "Comment ça marche"
+    },
+    "howItWorks": {
+      "eyebrow": "Le jeu est en groupe",
+      "title": "Pas un quiz individuel. Une conversation.",
+      "subtitle": "La fun est dans la comparaison. Votre meilleur ami pense-t-il comme vous ? Votre partenaire va-t-il vous surprendre ? Il n'y a qu'une seule façon de le savoir.",
+      "steps": {
+        "1": {
+          "label": "Choisissez un quiz",
+          "description": "32 quiz sur la personnalité, les relations, la morale et la culture pop. Il y en a un pour chaque conversation que vous voulez avoir."
+        },
+        "2": {
+          "label": "Créez votre session",
+          "description": "Un clic génère un lien unique pour votre groupe. Pas d'inscription obligatoire pour les participants."
+        },
+        "3": {
+          "label": "Envoyez où vous voulez",
+          "description": "WhatsApp, Instagram, Telegram, où que ce soit. Chaque personne répond seule, sans voir les réponses des autres."
+        },
+        "4": {
+          "label": "Comparez les résultats",
+          "description": "Découvrez qui pense pareil, qui est le plus extrême du groupe et qui va surprendre tout le monde."
+        }
+      },
+      "cta": "Commencer maintenant",
+      "note": "Gratuit. Sans téléchargement. Fonctionne sur n'importe quel téléphone."
+    },
+    "features": {
+      "title": "Plus qu'un quiz : une façon de nous comprendre",
+      "dilemmas": {
+        "title": "Des dilemmes qui révèlent",
+        "description": "Des questions conçues pour découvrir comment vous pensez vraiment face aux situations complexes."
+      },
+      "share": {
+        "title": "Partagez et comparez",
+        "description": "Envoyez le quiz à vos amis et découvrez qui pense comme vous et qui vous surprendra."
+      },
+      "profile": {
+        "title": "Profil de personnalité",
+        "description": "Obtenez un profil basé sur les dimensions éthiques et découvrez quel personnage historique partage votre philosophie."
+      }
+    },
+    "quizzes": {
+      "title": "Nos quiz",
+      "subtitle": "Choisissez un quiz pour essayer seul ou créer une session de groupe avec vos amis.",
+      "createSession": "Créer une session",
+      "tryQuiz": "Essayer le quiz"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "description": "Entrez votre email et nous vous enverrons un code de vérification",
+      "email": "Email",
+      "emailPlaceholder": "vous@email.com",
+      "sendCode": "Envoyer le code",
+      "sending": "Envoi...",
+      "errorSend": "Erreur lors de l'envoi du code"
+    },
+    "otp": {
+      "title": "Entrez le code",
+      "description": "Nous avons envoyé un code à 6 chiffres à",
+      "changeEmail": "Changer d'email",
+      "verify": "Vérifier",
+      "verifying": "Vérification...",
+      "resend": "Renvoyer le code",
+      "resendIn": "Renvoyer le code dans {seconds}s",
+      "errorVerify": "Code incorrect",
+      "errorResend": "Erreur lors du renvoi du code"
+    },
+    "logout": "Déconnexion"
+  },
+  "dashboard": {
+    "title": "Créer une session",
+    "newSession": "Nouvelle session",
+    "mySessions": "Mes sessions",
+    "totalParticipants": "Total participants",
+    "tryQuiz": "Essayer seul",
+    "ethicsQuiz": {
+      "title": "Dilemmes éthiques",
+      "description": "10 situations éthiques qui révéleront votre philosophie de vie. Découvrez quel personnage historique pense comme vous."
+    },
+    "virtualQuiz": {
+      "title": "Réalité ou Virtualité ?",
+      "description": "10 scénarios où la réalité virtuelle offre des alternatives tentantes. Où est votre point de bascule ?"
+    },
+    "quizBadge": {
+      "questions": "10 questions",
+      "duration": "~5 min"
+    },
+    "chooseQuiz": "Choisissez un quiz pour créer une session",
+    "createSession": "Créer une session",
+    "noSessions": "Vous n'avez pas encore créé de sessions.",
+    "createFirst": "Créez votre première session",
+    "createFirstSuffix": "pour partager un quiz avec vos amis.",
+    "sessionCode": "Session",
+    "participant": "participant",
+    "participants": "participants",
+    "open": "Ouverte",
+    "closed": "Fermée",
+    "seeResults": "Voir les résultats",
+    "answer": "Répondre",
+    "completed": "ont complété",
+    "done": "Terminé",
+    "loginPrompt": "Connectez-vous",
+    "loginPromptSuffix": "pour créer des sessions de groupe et partager des quiz avec vos amis."
+  },
+  "newSession": {
+    "back": "Retour au panel",
+    "title": "Créer une nouvelle session",
+    "chooseQuiz": "Choisissez le quiz pour votre session de groupe :",
+    "ethics": {
+      "title": "Dilemmes éthiques",
+      "description": "10 situations éthiques qui révéleront la philosophie de vie de votre groupe. Partagez le lien et comparez les résultats."
+    },
+    "virtual": {
+      "title": "Réalité ou Virtualité ?",
+      "description": "10 scénarios où la réalité virtuelle offre des alternatives tentantes. Où est le point de bascule de votre groupe ?"
+    },
+    "create": "Créer une session de groupe",
+    "creating": "Création...",
+    "error": "Erreur lors de la création de la session",
+    "created": "Session créée",
+    "shareTitle": "Partagez ce lien avec vos amis",
+    "sessionCode": "Code de session :",
+    "seeResults": "Voir les résultats",
+    "createAnother": "Créer une autre session",
+    "sessionCreated": "Session créée !",
+    "code": "Code :",
+    "group": "Groupe",
+    "answerFirst": "Répondre en premier",
+    "seeGroupResults": "Voir les résultats du groupe",
+    "retry": "Réessayer",
+    "creatingSession": "Création de la session…"
+  },
+  "join": {
+    "title": "Rejoindre la session",
+    "inviteDescription": "{name} vous invite à passer un quiz",
+    "sessionDescription": "Session : {code}",
+    "yourName": "Votre nom",
+    "namePlaceholder": "Comment vous appelez-vous ?",
+    "email": "Email (optionnel)",
+    "emailPlaceholder": "Pour recevoir les résultats par email",
+    "startQuiz": "Commencer le quiz",
+    "joining": "Connexion...",
+    "error": "Erreur lors de la jonction",
+    "sessionClosed": "Session fermée",
+    "closedMessage": "Cette session n'accepte plus de nouveaux participants.",
+    "seeGroupResults": "Voir les résultats du groupe"
+  },
+  "results": {
+    "yourResult": "Ton résultat",
+    "yourProfile": "Ton profil :",
+    "viewGroupResults": "Voir les résultats du groupe",
+    "goToHome": "Aller à l'accueil"
+  },
+  "groupResults": {
+    "title": "Résultats du groupe",
+    "session": "Session :",
+    "createdBy": "Créée par",
+    "open": "Ouverte",
+    "closed": "Fermée",
+    "participantsCompleted": "{completed} sur {total} participants ont terminé",
+    "noCompletions": "Personne n'a encore terminé le quiz. Partagez le lien pour que vos amis participent.",
+    "seeSessionLink": "Voir le lien de la session",
+    "summary": "Résumé",
+    "comparison": "Comparaison",
+    "detail": "Détail",
+    "allParticipants": "Tous les participants",
+    "participantDetail": "Détail individuel de chaque participant",
+    "participant": "Participant",
+    "character": "Personnage",
+    "goToHome": "Aller à l'accueil",
+    "stats": {
+      "completed": "Complétés",
+      "participants": "participants",
+      "popularCharacter": "Personnage populaire",
+      "personCount": "{count} personne(s)",
+      "dominantDimension": "Dimension dominante",
+      "totalPoints": "{count} points au total"
+    },
+    "charts": {
+      "characterDistribution": "Distribution des personnages",
+      "noResult": "Sans résultat",
+      "dimensionRadar": "Radar des dimensions",
+      "dimensionComparison": "Comparaison des dimensions"
+    }
+  },
+  "createSessionCta": {
+    "title": "Créez votre propre session",
+    "description": "Invitez vos amis et découvrez comment ils pensent. Choisissez un quiz, partagez le lien et comparez les résultats en temps réel.",
+    "cta": "Créer une session et inviter des amis"
+  },
+  "quiz": {
+    "previous": "Précédent",
+    "next": "Suivant",
+    "submit": "Envoyer les réponses",
+    "submitting": "Envoi...",
+    "error": "Erreur lors de l'envoi des réponses",
+    "restart": "Recommencer le quiz",
+    "questionProgress": "Question {current} sur {total}",
+    "viewResult": "Voir le résultat"
+  }
+}

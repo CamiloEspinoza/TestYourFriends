@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslations } from "next-intl";
 import type { GroupParticipant } from "@/lib/session-api";
 
 const COLORS = [
@@ -24,28 +25,21 @@ const COLORS = [
   "hsl(330, 81%, 60%)",
 ];
 
-const defaultDimensionLabels: Record<string, string> = {
-  P: "Pragmatismo",
-  I: "Idealismo",
-  E: "Empatía",
-  R: "Rebeldía",
-};
-
 export function DimensionComparison({
   participants,
-  dimensionLabels = defaultDimensionLabels,
+  dimensionLabels,
 }: {
   participants: GroupParticipant[];
-  dimensionLabels?: Record<string, string>;
+  dimensionLabels: Record<string, string>;
 }) {
+  const t = useTranslations("groupResults.charts");
   const dims = Object.keys(dimensionLabels);
-  const scoreColumns = ["scoreP", "scoreI", "scoreE", "scoreR"] as const;
-  const data = dims.map((dim, i) => {
+  const data = dims.map((dim) => {
     const entry: Record<string, string | number> = {
       dimension: dimensionLabels[dim],
     };
     participants.forEach((p) => {
-      entry[p.name] = (p[scoreColumns[i]] as number) ?? 0;
+      entry[p.name] = p.scores?.[dim] ?? 0;
     });
     return entry;
   });
@@ -53,7 +47,7 @@ export function DimensionComparison({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Comparación por dimensión</CardTitle>
+        <CardTitle>{t("dimensionComparison")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={350}>

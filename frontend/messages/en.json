@@ -1,0 +1,265 @@
+{
+  "common": {
+    "appName": "TestYourFriends",
+    "dashboard": "Create session",
+    "backToPanel": "Back to panel",
+    "loading": "Loading...",
+    "rights": "All rights reserved."
+  },
+  "metadata": {
+    "site": {
+      "title": "TestYourFriends — Discover how your friends think",
+      "description": "Quizzes with real dilemmas that reveal each person's life philosophy. Share, compare and understand your friends like never before.",
+      "keywords": "personality quiz, ethical dilemmas, friend test, compare life philosophy, group quiz"
+    },
+    "home": {
+      "title": "Home",
+      "description": "Discover how the people you care about think with real dilemma quizzes. Share, compare and understand your friends."
+    },
+    "login": {
+      "title": "Sign in",
+      "description": "Access your TestYourFriends account to create sessions and share quizzes with your friends."
+    },
+    "register": {
+      "title": "Sign up",
+      "description": "Create your TestYourFriends account and start discovering how your friends think."
+    },
+    "dashboard": {
+      "title": "Create session",
+      "description": "Manage your sessions, review results and create new quizzes to share with your friends."
+    },
+    "newSession": {
+      "title": "Create new session",
+      "description": "Choose a quiz and create a group session to share with your friends."
+    },
+    "ethicsQuiz": {
+      "title": "Ethical Dilemmas Quiz",
+      "description": "10 ethical situations that will reveal your life philosophy. Discover which historical figure thinks like you."
+    },
+    "virtualQuiz": {
+      "title": "Reality or Virtuality Quiz",
+      "description": "10 scenarios where virtual reality offers tempting alternatives. Where is your tipping point?"
+    },
+    "joinSession": {
+      "title": "Join session",
+      "description": "Join a group session and take the quiz with your friends."
+    },
+    "results": {
+      "title": "Results",
+      "description": "Discover your personality profile based on your quiz answers."
+    },
+    "groupResults": {
+      "title": "Group results",
+      "description": "Compare the results of all session participants."
+    }
+  },
+  "home": {
+    "hero": {
+      "badge": "New quizzes available",
+      "title": "Discover how the people you care about think",
+      "subtitle": "Quizzes with real dilemmas that reveal each person's life philosophy. Share, compare and understand your friends like never before.",
+      "tryQuiz": "See quizzes",
+      "howItWorks": "How it works"
+    },
+    "howItWorks": {
+      "eyebrow": "It's a group game",
+      "title": "Not an individual quiz. A conversation.",
+      "subtitle": "The fun is in the comparison. Does your best friend think like you? Will your partner surprise you? There's only one way to find out.",
+      "steps": {
+        "1": {
+          "label": "Pick a quiz",
+          "description": "32 quizzes about personality, relationships, morality and pop culture. There's one for every conversation you want to have."
+        },
+        "2": {
+          "label": "Create your session",
+          "description": "One click generates a unique link for your group. No registration required for participants."
+        },
+        "3": {
+          "label": "Send it anywhere",
+          "description": "WhatsApp, Instagram, Telegram, wherever. Each person answers alone, without seeing others' responses."
+        },
+        "4": {
+          "label": "Compare results",
+          "description": "Find out who thinks alike, who's the most extreme in the group, and who will surprise everyone."
+        }
+      },
+      "cta": "Start now",
+      "note": "Free. No downloads. Works on any phone."
+    },
+    "features": {
+      "title": "More than a quiz: a way to understand each other",
+      "dilemmas": {
+        "title": "Dilemmas that reveal",
+        "description": "Questions designed to discover how you really think when facing complex situations."
+      },
+      "share": {
+        "title": "Share and compare",
+        "description": "Send the quiz to your friends and discover who thinks like you and who will surprise you."
+      },
+      "profile": {
+        "title": "Personality profile",
+        "description": "Get a profile based on ethical dimensions and discover which historical figure shares your philosophy."
+      }
+    },
+    "quizzes": {
+      "title": "Our quizzes",
+      "subtitle": "Choose a quiz to try alone or create a group session with your friends.",
+      "createSession": "Create session",
+      "tryQuiz": "Try quiz"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "description": "Enter your email and we'll send you a verification code",
+      "email": "Email",
+      "emailPlaceholder": "you@email.com",
+      "sendCode": "Send code",
+      "sending": "Sending...",
+      "errorSend": "Error sending code"
+    },
+    "otp": {
+      "title": "Enter the code",
+      "description": "We sent a 6-digit code to",
+      "changeEmail": "Change email",
+      "verify": "Verify",
+      "verifying": "Verifying...",
+      "resend": "Resend code",
+      "resendIn": "Resend code in {seconds}s",
+      "errorVerify": "Incorrect code",
+      "errorResend": "Error resending code"
+    },
+    "logout": "Sign out"
+  },
+  "dashboard": {
+    "title": "Create session",
+    "newSession": "New session",
+    "mySessions": "My sessions",
+    "totalParticipants": "Total participants",
+    "tryQuiz": "Try solo",
+    "ethicsQuiz": {
+      "title": "Ethical Dilemmas",
+      "description": "10 ethical situations that will reveal your life philosophy. Discover which historical figure thinks like you."
+    },
+    "virtualQuiz": {
+      "title": "Reality or Virtuality?",
+      "description": "10 scenarios where virtual reality offers tempting alternatives. Where is your tipping point?"
+    },
+    "quizBadge": {
+      "questions": "10 questions",
+      "duration": "~5 min"
+    },
+    "chooseQuiz": "Choose a quiz to create a session",
+    "createSession": "Create session",
+    "noSessions": "You haven't created any sessions yet.",
+    "createFirst": "Create your first session",
+    "createFirstSuffix": "to share a quiz with your friends.",
+    "sessionCode": "Session",
+    "participant": "participant",
+    "participants": "participants",
+    "open": "Open",
+    "closed": "Closed",
+    "seeResults": "View results",
+    "answer": "Respond",
+    "completed": "completed",
+    "done": "Done",
+    "loginPrompt": "Sign in",
+    "loginPromptSuffix": "to create group sessions and share quizzes with your friends."
+  },
+  "newSession": {
+    "back": "Back to panel",
+    "title": "Create new session",
+    "chooseQuiz": "Choose the quiz for your group session:",
+    "ethics": {
+      "title": "Ethical Dilemmas",
+      "description": "10 ethical situations that will reveal your group's life philosophy. Share the link and compare results."
+    },
+    "virtual": {
+      "title": "Reality or Virtuality?",
+      "description": "10 scenarios where virtual reality offers tempting alternatives. Where is your group's tipping point?"
+    },
+    "create": "Create group session",
+    "creating": "Creating...",
+    "error": "Error creating session",
+    "created": "Session created",
+    "shareTitle": "Share this link with your friends",
+    "sessionCode": "Session code:",
+    "seeResults": "View results",
+    "createAnother": "Create another session",
+    "sessionCreated": "Session created!",
+    "code": "Code:",
+    "group": "Group",
+    "answerFirst": "Answer first",
+    "seeGroupResults": "View group results",
+    "retry": "Retry",
+    "creatingSession": "Creating session…"
+  },
+  "join": {
+    "title": "Join the session",
+    "inviteDescription": "{name} invites you to take a quiz",
+    "sessionDescription": "Session: {code}",
+    "yourName": "Your name",
+    "namePlaceholder": "What's your name?",
+    "email": "Email (optional)",
+    "emailPlaceholder": "To receive results by email",
+    "startQuiz": "Start quiz",
+    "joining": "Joining...",
+    "error": "Error joining",
+    "sessionClosed": "Session closed",
+    "closedMessage": "This session no longer accepts new participants.",
+    "seeGroupResults": "View group results"
+  },
+  "results": {
+    "yourResult": "Your result",
+    "yourProfile": "Your profile:",
+    "viewGroupResults": "View group results",
+    "goToHome": "Go to home"
+  },
+  "groupResults": {
+    "title": "Group results",
+    "session": "Session:",
+    "createdBy": "Created by",
+    "open": "Open",
+    "closed": "Closed",
+    "participantsCompleted": "{completed} of {total} participants have completed",
+    "noCompletions": "No one has completed the quiz yet. Share the link so your friends can participate.",
+    "seeSessionLink": "View session link",
+    "summary": "Summary",
+    "comparison": "Comparison",
+    "detail": "Detail",
+    "allParticipants": "All participants",
+    "participantDetail": "Individual detail for each participant",
+    "participant": "Participant",
+    "character": "Character",
+    "goToHome": "Go to home",
+    "stats": {
+      "completed": "Completed",
+      "participants": "participants",
+      "popularCharacter": "Popular character",
+      "personCount": "{count} person(s)",
+      "dominantDimension": "Dominant dimension",
+      "totalPoints": "{count} total points"
+    },
+    "charts": {
+      "characterDistribution": "Character distribution",
+      "noResult": "No result",
+      "dimensionRadar": "Dimension radar",
+      "dimensionComparison": "Dimension comparison"
+    }
+  },
+  "createSessionCta": {
+    "title": "Create your own session",
+    "description": "Invite your friends and discover how they think. Choose a quiz, share the link and compare results in real time.",
+    "cta": "Create session and invite friends"
+  },
+  "quiz": {
+    "previous": "Previous",
+    "next": "Next",
+    "submit": "Submit answers",
+    "submitting": "Submitting...",
+    "error": "Error submitting answers",
+    "restart": "Restart quiz",
+    "questionProgress": "Question {current} of {total}",
+    "viewResult": "View result"
+  }
+}
