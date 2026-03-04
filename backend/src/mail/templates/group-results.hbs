@@ -1,56 +1,119 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resultados del Quiz - TestYourFriends</title>
-  <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background-color: #f9fafb; color: #111827; }
-    .container { max-width: 560px; margin: 0 auto; padding: 32px 16px; }
-    .card { background: white; border-radius: 12px; padding: 32px; border: 1px solid #e5e7eb; }
-    .header { text-align: center; margin-bottom: 24px; }
-    .header h1 { font-size: 24px; margin: 0 0 8px; }
-    .header p { color: #6b7280; margin: 0; font-size: 14px; }
-    .result-box { background: #f3f4f6; border-radius: 8px; padding: 16px; margin: 16px 0; }
-    .result-box h2 { font-size: 20px; margin: 0 0 4px; }
-    .result-box p { color: #6b7280; margin: 0; font-size: 14px; }
-    .scores { margin: 16px 0; }
-    .score-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 14px; }
-    .score-label { color: #6b7280; }
-    .btn { display: inline-block; background: #111827; color: white; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 500; }
-    .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #9ca3af; }
-  </style>
+  <title>Tus resultados — TestYourFriends</title>
 </head>
-<body>
-  <div class="container">
-    <div class="card">
-      <div class="header">
-        <h1>TestYourFriends</h1>
-        <p>Resultados de la sesión {{sessionCode}}</p>
-      </div>
+<body style="margin:0;padding:0;background-color:#f1f3f5;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
 
-      <p>Hola {{participantName}},</p>
-      <p>Aquí están tus resultados del quiz <strong>Dilemas Éticos</strong>:</p>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f1f3f5;">
+    <tr>
+      <td align="center" style="padding:40px 16px;">
 
-      <div class="result-box">
-        <h2>{{characterName}}</h2>
-        <p>{{characterDescription}}</p>
-      </div>
+        <!-- Outer card -->
+        <table width="560" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
 
-      <div class="scores">
-        <div class="score-row"><span class="score-label">Pragmatismo</span><span>{{scoreP}}/10</span></div>
-        <div class="score-row"><span class="score-label">Idealismo</span><span>{{scoreI}}/10</span></div>
-        <div class="score-row"><span class="score-label">Empatía</span><span>{{scoreE}}/10</span></div>
-        <div class="score-row"><span class="score-label">Rebeldía</span><span>{{scoreR}}/10</span></div>
-      </div>
+          <!-- ── Header ── -->
+          <tr>
+            <td style="background-color:#0a0a0f;padding:28px 40px;text-align:center;">
+              <p style="margin:0;color:#ffffff;font-size:22px;font-weight:800;letter-spacing:-0.4px;">TestYourFriends</p>
+              <p style="margin:6px 0 0;color:rgba(255,255,255,0.45);font-size:13px;letter-spacing:0.02em;">SESIÓN {{sessionCode}}</p>
+            </td>
+          </tr>
 
-      <p style="text-align: center; margin-top: 24px;">
-        <a href="{{groupResultsUrl}}" class="btn">Ver resultados del grupo</a>
-      </p>
-    </div>
-    <div class="footer">
-      <p>&copy; {{year}} TestYourFriends</p>
-    </div>
-  </div>
+          <!-- ── Body ── -->
+          <tr>
+            <td style="background-color:#ffffff;padding:36px 40px 28px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 8px;font-size:16px;color:#374151;">Hola <strong style="color:#111827;">{{participantName}}</strong>,</p>
+              <p style="margin:0 0 28px;font-size:15px;color:#6b7280;line-height:1.6;">Aquí están tus resultados del quiz <strong style="color:#111827;">{{quizTitle}}</strong>. ¡Comparte el link con tu grupo para ver cómo les fue a todos!</p>
+
+              <!-- ── Character card ── -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f8f9fa;border-radius:12px;margin-bottom:32px;">
+                <tr>
+                  <td style="padding:24px;">
+                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                      <tr>
+                        <!-- Photo -->
+                        <td width="88" style="vertical-align:top;padding-right:20px;">
+                          <img
+                            src="{{characterPhotoUrl}}"
+                            width="80"
+                            height="80"
+                            alt="{{characterName}}"
+                            style="display:block;width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #e5e7eb;background-color:#e5e7eb;"
+                          />
+                        </td>
+                        <!-- Info -->
+                        <td style="vertical-align:middle;">
+                          <p style="margin:0 0 4px;font-size:19px;font-weight:800;color:#111827;letter-spacing:-0.3px;">{{characterName}}</p>
+                          <p style="margin:0;font-size:14px;color:#6b7280;line-height:1.6;">{{characterDescription}}</p>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- ── Scores ── -->
+              <p style="margin:0 0 18px;font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.1em;">Tus puntuaciones</p>
+
+              {{#each scores}}
+              <!-- Score row -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:18px;">
+                <tr>
+                  <td>
+                    <!-- Label + value -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:7px;">
+                      <tr>
+                        <td style="font-size:14px;color:#374151;font-weight:500;">{{label}}</td>
+                        <td style="text-align:right;font-size:15px;color:#111827;font-weight:700;">
+                          {{score}}<span style="color:#9ca3af;font-size:13px;font-weight:400;">/10</span>
+                        </td>
+                      </tr>
+                    </table>
+                    <!-- Bar -->
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-radius:6px;overflow:hidden;">
+                      <tr>
+                        <td width="{{barPercent}}%" height="10" bgcolor="#111827" style="background-color:#111827;border-radius:6px 0 0 6px;font-size:0;line-height:0;">&nbsp;</td>
+                        <td height="10" bgcolor="#e5e7eb" style="background-color:#e5e7eb;border-radius:0 6px 6px 0;font-size:0;line-height:0;">&nbsp;</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              {{/each}}
+
+              <!-- ── CTA ── -->
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:32px;">
+                <tr>
+                  <td align="center">
+                    <a
+                      href="{{groupResultsUrl}}"
+                      style="display:inline-block;background-color:#111827;color:#ffffff;text-decoration:none;padding:14px 36px;border-radius:10px;font-size:15px;font-weight:700;letter-spacing:-0.1px;"
+                    >
+                      Ver resultados del grupo &rarr;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- ── Footer ── -->
+          <tr>
+            <td style="background-color:#f9fafb;border-top:1px solid #e5e7eb;padding:20px 40px;text-align:center;">
+              <p style="margin:0;font-size:12px;color:#9ca3af;">&copy; {{year}} TestYourFriends &nbsp;·&nbsp; <a href="https://testyourfriends.com" style="color:#9ca3af;text-decoration:none;">testyourfriends.com</a></p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+
 </body>
 </html>

@@ -191,8 +191,10 @@ export class SessionService {
         to: participant.email,
         participantName: participant.name,
         sessionCode: code,
+        quizTitle: resolvedQuiz.title,
         characterName: result.character.name,
         characterDescription: result.character.description,
+        characterPhoto: result.character.photo,
         scores: result.scores,
         dimensionLabels: resolvedQuiz.dimensionLabels as Record<string, string>,
       }).catch(() => {});

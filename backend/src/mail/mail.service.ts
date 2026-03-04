@@ -14,8 +14,10 @@ interface SendResultsEmailParams {
   to: string;
   participantName: string;
   sessionCode: string;
+  quizTitle: string;
   characterName: string;
   characterDescription: string;
+  characterPhoto: string; // root-relative path, e.g. /characters/gandhi.jpg
   scores: Record<string, number>;
   dimensionLabels: Record<string, string>;
 }
@@ -168,8 +170,9 @@ export class MailService {
   }
 
   async sendGroupResultsEmail(params: SendResultsEmailParams): Promise<void> {
-    const subject = `Tus resultados: ${params.characterName} - TestYourFriends`;
+    const subject = `${params.characterName} — tus resultados están listos · TestYourFriends`;
     const groupResultsUrl = `${this.baseUrl}/s/${params.sessionCode}/group`;
+    const characterPhotoUrl = `${this.baseUrl}${params.characterPhoto}`;
 
     try {
       const log = await this.prisma.emailLog.create({
@@ -190,17 +193,21 @@ export class MailService {
         log.id,
       );
 
-      // Build score entries as array for template iteration
+      // Build score entries with bar widths for visual rendering in email
       const scoreEntries = Object.entries(params.scores).map(([dim, score]) => ({
         label: params.dimensionLabels[dim] ?? dim,
         score,
+        barPercent: Math.round(score * 10),
+        remainPercent: Math.round((10 - score) * 10),
       }));
 
       const html = this.renderTemplate('group-results', {
         participantName: params.participantName,
         sessionCode: params.sessionCode,
+        quizTitle: params.quizTitle,
         characterName: params.characterName,
         characterDescription: params.characterDescription,
+        characterPhotoUrl,
         scores: scoreEntries,
         groupResultsUrl: trackedGroupResultsUrl,
         year: new Date().getFullYear(),
