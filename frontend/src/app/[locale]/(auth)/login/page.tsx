@@ -29,7 +29,7 @@ type Step = "email" | "otp";
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const tOtp = useTranslations("auth.otp");
-  const { sendOtp, verifyOtp } = useAuth();
+  const { user, loading: authLoading, sendOtp, verifyOtp } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
   const fullRedirect = searchParams.get("redirect");
@@ -45,6 +45,13 @@ export default function LoginPage() {
   const [devCode, setDevCode] = useState<string | undefined>();
   const cooldownRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const verifyingRef = useRef(false);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!authLoading && user) {
+      router.replace(redirectTo);
+    }
+  }, [authLoading, user, router, redirectTo]);
 
   useEffect(() => {
     return () => {

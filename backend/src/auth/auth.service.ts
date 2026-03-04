@@ -75,6 +75,7 @@ export class AuthService {
 
   async verifyOtp(email: string, code: string) {
     const normalizedEmail = email.toLowerCase().trim();
+    const normalizedCode = code.trim();
 
     const otp = await this.prisma.otp.findFirst({
       where: {
@@ -86,6 +87,9 @@ export class AuthService {
     });
 
     if (!otp) {
+      this.logger.warn(
+        `OTP verify failed for ${normalizedEmail}: no valid OTP found`,
+      );
       throw new UnauthorizedException('Código expirado o inválido');
     }
 
@@ -99,7 +103,10 @@ export class AuthService {
       );
     }
 
-    if (otp.code !== code) {
+    if (otp.code !== normalizedCode) {
+      this.logger.warn(
+        `OTP verify failed for ${normalizedEmail}: code mismatch (expected ${otp.code.slice(0, 2)}****, got ${normalizedCode.slice(0, 2)}****)`,
+      );
       await this.prisma.otp.update({
         where: { id: otp.id },
         data: { attempts: { increment: 1 } },
