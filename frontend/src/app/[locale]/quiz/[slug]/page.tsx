@@ -21,6 +21,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 
 import { getQuizBySlug, calculateResult, type QuizFull, type QuizCharacter } from "@/lib/quiz-api";
+import { shuffle } from "@/lib/shuffle";
 
 type Phase = "intro" | "questions" | "result";
 
@@ -50,7 +51,13 @@ export default function QuizPage({
 
   useEffect(() => {
     getQuizBySlug(slug, locale)
-      .then(setQuiz)
+      .then((data) => {
+        const questionsWithShuffledOptions = data.questions.map((q) => ({
+          ...q,
+          options: shuffle(q.options),
+        }));
+        setQuiz({ ...data, questions: questionsWithShuffledOptions });
+      })
       .catch(() => setError("No se pudo cargar el quiz."))
       .finally(() => setLoading(false));
   }, [slug, locale]);

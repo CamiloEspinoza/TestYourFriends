@@ -22,6 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { submitAnswers, saveProgress, type JoinResponse } from "@/lib/session-api";
 import { getSessionInfo } from "@/lib/session-api";
 import { getQuizBySlug } from "@/lib/quiz-api";
+import { shuffle } from "@/lib/shuffle";
 
 type Dimension = string;
 
@@ -48,17 +49,25 @@ export default function SessionQuizPage() {
     }
     const cached = sessionStorage.getItem(`quiz_${params.code}`);
     if (cached) {
-      setQuizData(JSON.parse(cached));
+      const parsed = JSON.parse(cached) as QuizState;
+      const questionsWithShuffledOptions = parsed.questions.map((q) => ({
+        ...q,
+        options: shuffle(q.options),
+      }));
+      setQuizData({ ...parsed, questions: questionsWithShuffledOptions });
     } else {
-      // Fallback: fetch quiz data from the API
       getSessionInfo(params.code, locale).then((session) => {
         getQuizBySlug(session.quizSlug, locale).then((quiz) => {
+          const questionsWithShuffledOptions = quiz.questions.map((q) => ({
+            ...q,
+            options: shuffle(q.options),
+          }));
           setQuizData({
             participantId,
             sessionId: session.id,
             quizSlug: session.quizSlug,
             scenarioLabel: quiz.scenarioLabel,
-            questions: quiz.questions,
+            questions: questionsWithShuffledOptions,
           });
         });
       }).catch(() => {
