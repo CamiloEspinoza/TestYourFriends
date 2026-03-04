@@ -6,8 +6,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
 
 jobs:
   # ──────────────────────────────────────────────
@@ -25,6 +23,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set image names (GHCR requires lowercase)
+        run: |
+          REPO_LOWER=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "BACKEND_IMAGE=ghcr.io/${REPO_LOWER}/backend" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=ghcr.io/${REPO_LOWER}/frontend" >> $GITHUB_ENV
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -92,7 +96,7 @@ jobs:
             cd /opt/testyourfriends
 
             export IMAGE_TAG=${{ needs.build.outputs.image_tag }}
-            export GITHUB_REPOSITORY=${{ github.repository }}
+            export GITHUB_REPOSITORY=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
 
             echo "==> Pulling new images (tag: $IMAGE_TAG) — sin interrumpir aún"
             IMAGE_TAG=$IMAGE_TAG GITHUB_REPOSITORY=$GITHUB_REPOSITORY \
