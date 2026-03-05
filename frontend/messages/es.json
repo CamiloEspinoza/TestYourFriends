@@ -150,7 +150,22 @@
     "completed": "completaron",
     "done": "Completado",
     "loginPrompt": "Inicia sesión",
-    "loginPromptSuffix": "para crear sesiones grupales y compartir quizzes con tus amigos."
+    "loginPromptSuffix": "para crear sesiones grupales y compartir quizzes con tus amigos.",
+    "sessionActions": "Acciones",
+    "closeSessionAction": "Cerrar sesión",
+    "reopenSessionAction": "Reabrir sesión",
+    "deleteSessionAction": "Eliminar sesión",
+    "removeParticipantAction": "Eliminar participante",
+    "confirmDeleteSession": "Eliminar sesión",
+    "confirmDeleteSessionDesc": "Se eliminará la sesión \"{title}\" y todos sus participantes y respuestas. Esta acción no se puede deshacer.",
+    "confirmRemoveParticipant": "Eliminar participante",
+    "confirmRemoveParticipantDesc": "Se eliminará a {name} y todas sus respuestas de esta sesión. Esta acción no se puede deshacer.",
+    "confirmCloseSession": "Cerrar sesión",
+    "confirmCloseSessionDesc": "Al cerrar la sesión, nadie más podrá unirse ni responder el quiz.",
+    "confirmReopenSession": "Reabrir sesión",
+    "confirmReopenSessionDesc": "Al reabrir la sesión, nuevos participantes podrán unirse y responder el quiz.",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   },
   "newSession": {
     "back": "Volver al panel",

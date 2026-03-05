@@ -165,7 +165,22 @@
     "completed": "completed",
     "done": "Done",
     "loginPrompt": "Sign in",
-    "loginPromptSuffix": "to create group sessions and share quizzes with your friends."
+    "loginPromptSuffix": "to create group sessions and share quizzes with your friends.",
+    "sessionActions": "Actions",
+    "closeSessionAction": "Close session",
+    "reopenSessionAction": "Reopen session",
+    "deleteSessionAction": "Delete session",
+    "removeParticipantAction": "Remove participant",
+    "confirmDeleteSession": "Delete session",
+    "confirmDeleteSessionDesc": "The session \"{title}\" and all its participants and answers will be permanently deleted. This action cannot be undone.",
+    "confirmRemoveParticipant": "Remove participant",
+    "confirmRemoveParticipantDesc": "{name} and all their answers will be removed from this session. This action cannot be undone.",
+    "confirmCloseSession": "Close session",
+    "confirmCloseSessionDesc": "Closing the session will prevent new participants from joining or answering the quiz.",
+    "confirmReopenSession": "Reopen session",
+    "confirmReopenSessionDesc": "Reopening the session will allow new participants to join and answer the quiz.",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   },
   "newSession": {
     "back": "Back to panel",

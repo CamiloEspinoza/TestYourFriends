@@ -3,6 +3,7 @@ import {
   Post,
   Get,
   Patch,
+  Delete,
   Body,
   Param,
   Query,
@@ -75,5 +76,33 @@ export class SessionController {
     @Param('code') code: string,
   ) {
     return this.sessionService.close(code, user.sub);
+  }
+
+  @Patch(':code/reopen')
+  @UseGuards(JwtAuthGuard)
+  reopen(
+    @CurrentUser() user: { sub: string },
+    @Param('code') code: string,
+  ) {
+    return this.sessionService.reopen(code, user.sub);
+  }
+
+  @Delete(':code')
+  @UseGuards(JwtAuthGuard)
+  delete(
+    @CurrentUser() user: { sub: string },
+    @Param('code') code: string,
+  ) {
+    return this.sessionService.delete(code, user.sub);
+  }
+
+  @Delete(':code/participants/:participantId')
+  @UseGuards(JwtAuthGuard)
+  removeParticipant(
+    @CurrentUser() user: { sub: string },
+    @Param('code') code: string,
+    @Param('participantId') participantId: string,
+  ) {
+    return this.sessionService.removeParticipant(code, participantId, user.sub);
   }
 }

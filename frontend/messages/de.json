@@ -165,7 +165,22 @@
     "completed": "abgeschlossen",
     "done": "Fertig",
     "loginPrompt": "Melde dich an",
-    "loginPromptSuffix": "um Gruppensitzungen zu erstellen und Quizzes mit deinen Freunden zu teilen."
+    "loginPromptSuffix": "um Gruppensitzungen zu erstellen und Quizzes mit deinen Freunden zu teilen.",
+    "sessionActions": "Aktionen",
+    "closeSessionAction": "Sitzung schließen",
+    "reopenSessionAction": "Sitzung wieder öffnen",
+    "deleteSessionAction": "Sitzung löschen",
+    "removeParticipantAction": "Teilnehmer entfernen",
+    "confirmDeleteSession": "Sitzung löschen",
+    "confirmDeleteSessionDesc": "Die Sitzung \"{title}\" und alle Teilnehmer und Antworten werden dauerhaft gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "confirmRemoveParticipant": "Teilnehmer entfernen",
+    "confirmRemoveParticipantDesc": "{name} und alle zugehörigen Antworten werden aus dieser Sitzung entfernt. Diese Aktion kann nicht rückgängig gemacht werden.",
+    "confirmCloseSession": "Sitzung schließen",
+    "confirmCloseSessionDesc": "Durch das Schließen der Sitzung können keine neuen Teilnehmer mehr beitreten oder das Quiz beantworten.",
+    "confirmReopenSession": "Sitzung wieder öffnen",
+    "confirmReopenSessionDesc": "Durch das Wiederöffnen der Sitzung können neue Teilnehmer beitreten und das Quiz beantworten.",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen"
   },
   "newSession": {
     "back": "Zurück zum Panel",

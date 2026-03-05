@@ -340,4 +340,52 @@ export class SessionService {
 
     return { message: 'Session closed' };
   }
+
+  async reopen(code: string, userId: string) {
+    const session = await this.prisma.session.findUnique({ where: { code } });
+    if (!session) throw new NotFoundException('Session not found');
+    if (session.creatorId !== userId) {
+      throw new ForbiddenException('Only the creator can reopen this session');
+    }
+
+    await this.prisma.session.update({
+      where: { code },
+      data: { status: 'OPEN', closedAt: null },
+    });
+
+    return { message: 'Session reopened' };
+  }
+
+  async delete(code: string, userId: string) {
+    const session = await this.prisma.session.findUnique({ where: { code } });
+    if (!session) throw new NotFoundException('Session not found');
+    if (session.creatorId !== userId) {
+      throw new ForbiddenException('Only the creator can delete this session');
+    }
+
+    // Cascade deletes participants and answers via Prisma schema
+    await this.prisma.session.delete({ where: { code } });
+
+    return { message: 'Session deleted' };
+  }
+
+  async removeParticipant(code: string, participantId: string, userId: string) {
+    const session = await this.prisma.session.findUnique({ where: { code } });
+    if (!session) throw new NotFoundException('Session not found');
+    if (session.creatorId !== userId) {
+      throw new ForbiddenException('Only the creator can remove participants');
+    }
+
+    const participant = await this.prisma.participant.findUnique({
+      where: { id: participantId },
+    });
+    if (!participant || participant.sessionId !== session.id) {
+      throw new NotFoundException('Participant not found in this session');
+    }
+
+    // Cascade deletes answers via Prisma schema
+    await this.prisma.participant.delete({ where: { id: participantId } });
+
+    return { message: 'Participant removed' };
+  }
 }
