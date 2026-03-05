@@ -165,7 +165,22 @@
     "completed": "ont complété",
     "done": "Terminé",
     "loginPrompt": "Connectez-vous",
-    "loginPromptSuffix": "pour créer des sessions de groupe et partager des quiz avec vos amis."
+    "loginPromptSuffix": "pour créer des sessions de groupe et partager des quiz avec vos amis.",
+    "sessionActions": "Actions",
+    "closeSessionAction": "Fermer la session",
+    "reopenSessionAction": "Rouvrir la session",
+    "deleteSessionAction": "Supprimer la session",
+    "removeParticipantAction": "Supprimer le participant",
+    "confirmDeleteSession": "Supprimer la session",
+    "confirmDeleteSessionDesc": "La session \"{title}\" et tous ses participants et réponses seront définitivement supprimés. Cette action est irréversible.",
+    "confirmRemoveParticipant": "Supprimer le participant",
+    "confirmRemoveParticipantDesc": "{name} et toutes ses réponses seront supprimés de cette session. Cette action est irréversible.",
+    "confirmCloseSession": "Fermer la session",
+    "confirmCloseSessionDesc": "Fermer la session empêchera de nouveaux participants de rejoindre ou de répondre au quiz.",
+    "confirmReopenSession": "Rouvrir la session",
+    "confirmReopenSessionDesc": "Rouvrir la session permettra à de nouveaux participants de rejoindre et de répondre au quiz.",
+    "cancel": "Annuler",
+    "confirm": "Confirmer"
   },
   "newSession": {
     "back": "Retour au panel",

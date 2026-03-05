@@ -137,3 +137,22 @@ export function closeSession(code: string) {
     method: "PATCH",
   });
 }
+
+export function reopenSession(code: string) {
+  return apiFetch<{ message: string }>(`/sessions/${code}/reopen`, {
+    method: "PATCH",
+  });
+}
+
+export function deleteSession(code: string) {
+  return apiFetch<{ message: string }>(`/sessions/${code}`, {
+    method: "DELETE",
+  });
+}
+
+export function removeParticipant(code: string, participantId: string) {
+  return apiFetch<{ message: string }>(
+    `/sessions/${code}/participants/${participantId}`,
+    { method: "DELETE" },
+  );
+}

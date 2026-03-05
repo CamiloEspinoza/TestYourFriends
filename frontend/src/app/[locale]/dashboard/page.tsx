@@ -13,31 +13,67 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   ClipboardList,
   Users,
   CheckCircle2,
   Clock,
+  MoreVertical,
+  Trash2,
+  Lock,
+  Unlock,
+  UserMinus,
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useAuth } from "@/components/auth/auth-provider";
-import { getMySessions, createSession, type MySession, type SessionParticipant } from "@/lib/session-api";
+import {
+  getMySessions,
+  createSession,
+  closeSession,
+  reopenSession,
+  deleteSession,
+  removeParticipant,
+  type MySession,
+  type SessionParticipant,
+} from "@/lib/session-api";
 import { getQuizCategories, type QuizCategory } from "@/lib/quiz-api";
 import { ShareLink } from "@/components/session/share-link";
 import { QuizCatalog, QuizCatalogSkeleton } from "@/components/quiz/quiz-catalog";
+
+type ConfirmAction =
+  | { type: "deleteSession"; code: string; quizTitle: string }
+  | { type: "removeParticipant"; code: string; participantId: string; participantName: string }
+  | { type: "closeSession"; code: string }
+  | { type: "reopenSession"; code: string };
 
 export default function DashboardPage() {
   const t = useTranslations("dashboard");
   const tCommon = useTranslations("common");
   const locale = useLocale();
   const router = useRouter();
-  const { user, loading: authLoading } = useAuth();
+  const { user } = useAuth();
 
   const [sessions, setSessions] = useState<MySession[]>([]);
   const [loadingSessions, setLoadingSessions] = useState(false);
   const [categories, setCategories] = useState<QuizCategory[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
+  const [confirmAction, setConfirmAction] = useState<ConfirmAction | null>(null);
+  const [actionLoading, setActionLoading] = useState(false);
 
   useEffect(() => {
     getQuizCategories(locale)
@@ -64,12 +100,69 @@ export default function DashboardPage() {
       router.push(`/login?redirect=/dashboard`);
       return;
     }
-    const session = await createSession(quizSlug);
+    await createSession(quizSlug);
     // Refresh sessions list so the new session appears at the top
     await getMySessions(locale).then(setSessions).catch(() => {});
     // Scroll to the top to show the newly created session
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  async function handleConfirmAction() {
+    if (!confirmAction) return;
+    setActionLoading(true);
+    try {
+      switch (confirmAction.type) {
+        case "deleteSession":
+          await deleteSession(confirmAction.code);
+          break;
+        case "removeParticipant":
+          await removeParticipant(confirmAction.code, confirmAction.participantId);
+          break;
+        case "closeSession":
+          await closeSession(confirmAction.code);
+          break;
+        case "reopenSession":
+          await reopenSession(confirmAction.code);
+          break;
+      }
+      refreshSessions();
+    } catch {
+      // silently ignore — could add toast later
+    } finally {
+      setActionLoading(false);
+      setConfirmAction(null);
+    }
+  }
+
+  function getConfirmTitle(): string {
+    if (!confirmAction) return "";
+    switch (confirmAction.type) {
+      case "deleteSession":
+        return t("confirmDeleteSession");
+      case "removeParticipant":
+        return t("confirmRemoveParticipant");
+      case "closeSession":
+        return t("confirmCloseSession");
+      case "reopenSession":
+        return t("confirmReopenSession");
+    }
+  }
+
+  function getConfirmDescription(): string {
+    if (!confirmAction) return "";
+    switch (confirmAction.type) {
+      case "deleteSession":
+        return t("confirmDeleteSessionDesc", { title: confirmAction.quizTitle });
+      case "removeParticipant":
+        return t("confirmRemoveParticipantDesc", { name: confirmAction.participantName });
+      case "closeSession":
+        return t("confirmCloseSessionDesc");
+      case "reopenSession":
+        return t("confirmReopenSessionDesc");
+    }
+  }
+
+  const isDestructive = confirmAction?.type === "deleteSession" || confirmAction?.type === "removeParticipant";
 
   return (
     <div className="space-y-8">
@@ -102,7 +195,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* My sessions — moved above quiz catalog */}
+      {/* My sessions */}
       {user && (
         <div>
           <h2 className="mb-4 text-lg font-semibold">{t("mySessions")}</h2>
@@ -137,9 +230,50 @@ export default function DashboardPage() {
                             · {new Date(s.createdAt).toLocaleDateString()}
                           </CardDescription>
                         </div>
-                        <Badge variant={s.status === "OPEN" ? "default" : "secondary"} className="shrink-0">
-                          {s.status === "OPEN" ? t("open") : t("closed")}
-                        </Badge>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <Badge variant={s.status === "OPEN" ? "default" : "secondary"}>
+                            {s.status === "OPEN" ? t("open") : t("closed")}
+                          </Badge>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <MoreVertical className="h-4 w-4" />
+                                <span className="sr-only">{t("sessionActions")}</span>
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              {s.status === "OPEN" ? (
+                                <DropdownMenuItem
+                                  onClick={() => setConfirmAction({ type: "closeSession", code: s.code })}
+                                >
+                                  <Lock className="mr-2 h-4 w-4" />
+                                  {t("closeSessionAction")}
+                                </DropdownMenuItem>
+                              ) : (
+                                <DropdownMenuItem
+                                  onClick={() => setConfirmAction({ type: "reopenSession", code: s.code })}
+                                >
+                                  <Unlock className="mr-2 h-4 w-4" />
+                                  {t("reopenSessionAction")}
+                                </DropdownMenuItem>
+                              )}
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem
+                                className="text-destructive focus:text-destructive"
+                                onClick={() =>
+                                  setConfirmAction({
+                                    type: "deleteSession",
+                                    code: s.code,
+                                    quizTitle: s.quizTitle,
+                                  })
+                                }
+                              >
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                {t("deleteSessionAction")}
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </div>
                       </div>
 
                       {/* Completion summary */}
@@ -175,11 +309,29 @@ export default function DashboardPage() {
                                   )}
                                   <span className="text-xs font-medium truncate">{p.name}</span>
                                 </div>
-                                <span className="text-xs text-muted-foreground shrink-0">
-                                  {p.completed
-                                    ? t("done")
-                                    : `${p.answeredCount}/${s.totalQuestions}`}
-                                </span>
+                                <div className="flex items-center gap-2 shrink-0">
+                                  <span className="text-xs text-muted-foreground">
+                                    {p.completed
+                                      ? t("done")
+                                      : `${p.answeredCount}/${s.totalQuestions}`}
+                                  </span>
+                                  <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 text-muted-foreground hover:text-destructive"
+                                    onClick={() =>
+                                      setConfirmAction({
+                                        type: "removeParticipant",
+                                        code: s.code,
+                                        participantId: p.id,
+                                        participantName: p.name,
+                                      })
+                                    }
+                                  >
+                                    <UserMinus className="h-3.5 w-3.5" />
+                                    <span className="sr-only">{t("removeParticipantAction")}</span>
+                                  </Button>
+                                </div>
                               </div>
                             );
                           })}
@@ -223,6 +375,28 @@ export default function DashboardPage() {
           />
         )}
       </div>
+
+      {/* Confirmation dialog */}
+      <Dialog open={!!confirmAction} onOpenChange={(open) => !open && setConfirmAction(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{getConfirmTitle()}</DialogTitle>
+            <DialogDescription>{getConfirmDescription()}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setConfirmAction(null)} disabled={actionLoading}>
+              {t("cancel")}
+            </Button>
+            <Button
+              variant={isDestructive ? "destructive" : "default"}
+              onClick={handleConfirmAction}
+              disabled={actionLoading}
+            >
+              {actionLoading ? tCommon("loading") : t("confirm")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
